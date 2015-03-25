@@ -8,7 +8,7 @@
 using namespace std;
 
 // Create scanner
-string createScanner(string sourceText);
+string createScanner(string* mainSource);
 
 // Get next token from source text
 void nextToken();

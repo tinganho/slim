@@ -6,7 +6,8 @@
 using namespace std;
 
 int main() {
-  string result = createScanner("hello world");
+  string source = "hello world";
+  string result = createScanner(&source);
   cout << result << endl;
   return 0;
 }

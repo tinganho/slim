@@ -1,6 +1,7 @@
 
 
 #include <string>
+#include <map>
 #include "scanner.h"
 #include "types.h"
 #include "utils.h"
@@ -43,6 +44,12 @@ string source;
 
 // Flag for preceding linebreak.
 bool precedingLineBreak = false;
+
+
+map<string, SyntaxKind> textToToken {
+  {"any", SyntaxKind::AnyKeyword},
+  {"break", SyntaxKind::BreakKeyword}
+};
 
 
 bool isLineBreak(unsigned int ch) {
@@ -120,12 +127,21 @@ string scanIdentifierParts () {
 
 
 SyntaxKind getIdentifierToken() {
+  int len = tokenValue.length();
+  if (len >= 2 && len <= 11) {
+    int ch = tokenValue.at(0);
+    if (ch >= CharCode::a && ch <= CharCode::z
+    && textToToken.find(tokenValue) != textToToken.end()) {
+      token = textToToken.at(tokenValue);
+      return token;
+    }
+  }
   return SyntaxKind::Identifier;
 }
 
 
-string createScanner(string mainSource) {
-  source = mainSource;
+string createScanner(string* mainSource) {
+  source = *mainSource;
   while (true) {
     tokenPos = pos;
     if (pos >= len) {
