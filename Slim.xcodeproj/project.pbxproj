@@ -8,10 +8,12 @@
 
 /* Begin PBXFileReference section */
 		8E1434221AC26D7C002523CA /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		8E8213901AC27428000901D0 /* types.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = types.cpp; path = compiler/types.cpp; sourceTree = SOURCE_ROOT; };
+		8E8213911AC27961000901D0 /* .gitattributes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitattributes; sourceTree = "<group>"; };
 		8E82ABA11AC18AB1009080F0 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		8E82ABAD1AC191B0009080F0 /* program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = program.cpp; sourceTree = "<group>"; };
 		8E9614EA1AC19DD1004A85AD /* scanner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = scanner.cpp; path = compiler/scanner.cpp; sourceTree = SOURCE_ROOT; };
-		8E9614EB1AC19DD1004A85AD /* scanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = scanner.h; path = compiler/scanner.h; sourceTree = SOURCE_ROOT; };
+		8E9614EB1AC19DD1004A85AD /* scanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = scanner.h; path = compiler/scanner.h; sourceTree = SOURCE_ROOT; usesTabs = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -22,6 +24,7 @@
 				8E82ABA21AC18C03009080F0 /* includes */,
 				8E82ABA11AC18AB1009080F0 /* Makefile */,
 				8E1434221AC26D7C002523CA /* .gitignore */,
+				8E8213911AC27961000901D0 /* .gitattributes */,
 			);
 			sourceTree = "<group>";
 		};
@@ -38,6 +41,7 @@
 				8E82ABAD1AC191B0009080F0 /* program.cpp */,
 				8E9614EA1AC19DD1004A85AD /* scanner.cpp */,
 				8E9614EB1AC19DD1004A85AD /* scanner.h */,
+				8E8213901AC27428000901D0 /* types.cpp */,
 			);
 			name = compiler;
 			path = Compiler;

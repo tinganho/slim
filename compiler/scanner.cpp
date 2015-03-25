@@ -1,6 +1,7 @@
 
 #include <string>
 #include "scanner.h"
+#include "types.cpp"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ string sourceText;
 int idx = 0;
 
 // Current character code
-int ch;
+char ch;
 
 string createScanner(string sourceText) {
   sourceText = sourceText;
@@ -19,6 +20,6 @@ string createScanner(string sourceText) {
 }
 
 void nextToken() {
-  ch = (int)sourceText.at(idx);
+  ch = sourceText.at(idx);
   idx++;
 }
