@@ -8,11 +8,13 @@
 
 /* Begin PBXFileReference section */
 		8E1434221AC26D7C002523CA /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		8E8213901AC27428000901D0 /* types.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = types.cpp; path = compiler/types.cpp; sourceTree = SOURCE_ROOT; };
+		8E8213901AC27428000901D0 /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = types.h; path = compiler/types.h; sourceTree = SOURCE_ROOT; };
 		8E8213911AC27961000901D0 /* .gitattributes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitattributes; sourceTree = "<group>"; };
 		8E8213921AC279E7000901D0 /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		8E8213931AC27A14000901D0 /* Changelog.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Changelog.md; sourceTree = "<group>"; };
 		8E8213941AC27C82000901D0 /* .editorconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .editorconfig; sourceTree = "<group>"; };
+		8E8213951AC29618000901D0 /* utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = utils.cpp; path = compiler/utils.cpp; sourceTree = SOURCE_ROOT; };
+		8E8213961AC29618000901D0 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = utils.h; path = compiler/utils.h; sourceTree = SOURCE_ROOT; };
 		8E82ABA11AC18AB1009080F0 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		8E82ABAD1AC191B0009080F0 /* program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = program.cpp; sourceTree = "<group>"; };
 		8E9614EA1AC19DD1004A85AD /* scanner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = scanner.cpp; path = compiler/scanner.cpp; sourceTree = SOURCE_ROOT; };
@@ -47,7 +49,9 @@
 				8E82ABAD1AC191B0009080F0 /* program.cpp */,
 				8E9614EA1AC19DD1004A85AD /* scanner.cpp */,
 				8E9614EB1AC19DD1004A85AD /* scanner.h */,
-				8E8213901AC27428000901D0 /* types.cpp */,
+				8E8213901AC27428000901D0 /* types.h */,
+				8E8213951AC29618000901D0 /* utils.cpp */,
+				8E8213961AC29618000901D0 /* utils.h */,
 			);
 			name = compiler;
 			path = Compiler;

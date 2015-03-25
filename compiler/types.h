@@ -1,4 +1,7 @@
 
+#ifndef TYPES_H
+#define TYPES_H
+
 enum CharCode {
   NullCharacter = 0,
   MaxAsciiCharacter = 0x7F,
@@ -97,40 +100,50 @@ enum CharCode {
   Y = 0x59,
   Z = 0x5a,
 
-  ampersand = 0x26,             // &
-  asterisk = 0x2A,              // *
-  at = 0x40,                    // @
-  backslash = 0x5C,             // \
-  backtick = 0x60,              // `
-  bar = 0x7C,                   // |
-  caret = 0x5E,                 // ^
-  closeBrace = 0x7D,            // }
-  closeBracket = 0x5D,          // ]
-  closeParen = 0x29,            // )
-  colon = 0x3A,                 // :
-  comma = 0x2C,                 // ,
-  dot = 0x2E,                   // .
-  doubleQuote = 0x22,           // "
-  equals = 0x3D,                // =
-  exclamation = 0x21,           // !
-  greaterThan = 0x3E,           // >
-  hash = 0x23,                  // #
-  lessThan = 0x3C,              // <
-  minus = 0x2D,                 // -
-  openBrace = 0x7B,             // {
-  openBracket = 0x5B,           // [
-  openParen = 0x28,             // (
-  percent = 0x25,               // %
-  plus = 0x2B,                  // +
-  question = 0x3F,              // ?
-  semicolon = 0x3B,             // ;
-  singleQuote = 0x27,           // '
-  slash = 0x2F,                 // /
-  tilde = 0x7E,                 // ~
+  Ampersand = 0x26,             // &
+  Asterisk = 0x2A,              // *
+  At = 0x40,                    // @
+  Backslash = 0x5C,             // \
+  Backtick = 0x60,              // `
+  Bar = 0x7C,                   // |
+  Caret = 0x5E,                 // ^
+  CloseBrace = 0x7D,            // }
+  CloseBracket = 0x5D,          // ]
+  CloseParen = 0x29,            // )
+  Colon = 0x3A,                 // :
+  Comma = 0x2C,                 // ,
+  Dot = 0x2E,                   // .
+  DoubleQuote = 0x22,           // "
+  Equals = 0x3D,                // =
+  Exclamation = 0x21,           // !
+  GreaterThan = 0x3E,           // >
+  Hash = 0x23,                  // #
+  LessThan = 0x3C,              // <
+  Minus = 0x2D,                 // -
+  OpenBrace = 0x7B,             // {
+  OpenBracket = 0x5B,           // [
+  OpenParen = 0x28,             // (
+  Percent = 0x25,               // %
+  Plus = 0x2B,                  // +
+  Question = 0x3F,              // ?
+  Semicolon = 0x3B,             // ;
+  SingleQuote = 0x27,           // '
+  Slash = 0x2F,                 // /
+  Tilde = 0x7E,                 // ~
 
-  backspace = 0x08,             // \b
-  formFeed = 0x0C,              // \f
-  byteOrderMark = 0xFEFF,
-  tab = 0x09,                   // \t
-  verticalTab = 0x0B,           // \v
+  Backspace = 0x08,             // \b
+  FormFeed = 0x0C,              // \f
+  ByteOrderMark = 0xFEFF,
+  Tab = 0x09,                   // \t
+  VerticalTab = 0x0B,           // \v
 };
+
+
+enum SyntaxKind {
+  Unknown,
+  NewLineTrivia,
+  Identifier,
+  EndOfFileToken
+};
+
+#endif
