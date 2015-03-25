@@ -1,0 +1,7 @@
+
+
+# Built binary files
+bin/
+
+# Xcode build folder
+build/
