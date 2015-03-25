@@ -39,7 +39,7 @@ SyntaxKind token;
 
 
 // Current source.
-string source;
+string* source;
 
 
 // Flag for preceding linebreak.
@@ -113,7 +113,7 @@ string scanIdentifierParts () {
     string result = "";
     unsigned int start = pos;
     while (pos < len) {
-      unsigned int ch = (int)source[pos];
+      unsigned int ch = (int)(*source)[pos];
       if (isIdentifierPart(ch)) {
         pos++;
       }
@@ -121,7 +121,7 @@ string scanIdentifierParts () {
         break;
       }
     }
-    result += source.substr(start, pos - start);
+    result += (*source).substr(start, pos - start);
     return result;
 }
 
@@ -141,7 +141,7 @@ SyntaxKind getIdentifierToken() {
 
 
 string createScanner(string* mainSource) {
-  source = *mainSource;
+  source = mainSource;
   while (true) {
     tokenPos = pos;
     if (pos >= len) {
@@ -154,7 +154,7 @@ string createScanner(string* mainSource) {
         precedingLineBreak = true;
         if (ch == CharCode::CarriageReturn
         && pos + 1 < len
-        && (int)source[pos + 1] == CharCode::LineFeed) {
+        && (int)(*source)[pos + 1] == CharCode::LineFeed) {
 
           // Consume both CR and LF.
           pos += 2;
@@ -167,9 +167,9 @@ string createScanner(string* mainSource) {
       default:
         if (isIdentifierStart(ch)) {
           pos++;
-          while (pos < len && isIdentifierPart(ch = (int)source[pos]))
+          while (pos < len && isIdentifierPart(ch = (int)(*source)[pos]))
             pos++;
-          tokenValue = source.substr(tokenPos, pos - tokenPos);
+          tokenValue = (*source).substr(tokenPos, pos - tokenPos);
           if (ch == CharCode::Backslash) {
             tokenValue += scanIdentifierParts();
           }
@@ -190,7 +190,7 @@ string createScanner(string* mainSource) {
     }
   }
 
-  return source;
+  return *source;
 }
 
 void setTextPos(int textPos) {
