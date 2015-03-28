@@ -13,9 +13,11 @@
 #include <string>
 #include "types.h"
 
+
 using namespace std;
 
 
 void expectStringToEqualToken(string source, SyntaxKind token);
+
 
 #endif /* defined(__Slim__test__) */

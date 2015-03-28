@@ -38,6 +38,8 @@ private:
 
   SyntaxKind getIdentifierToken();
   string scanIdentifierParts();
+
+
 public:
   Scanner(string* source);
   Scanner(string source);
