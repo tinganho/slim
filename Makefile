@@ -23,5 +23,5 @@ all:
 	clang++ -O3 $(OPTIONS) $(INCLUDES) $(LIBS) ./compiler/program.cpp -o $(OUTPUT)
 
 test:
-	clang++ -g -Wall $(OPTIONS) $(INCLUDES) $(TEST) $(LIBS) -L/usr/local/lib -lgtest_clang   -o ./bin/test
+	clang++ -g -Wall $(OPTIONS) $(INCLUDES) $(TEST) $(LIBS) -L./includes/gtest-1.7.0/ -lgtest_clang   -o ./bin/test
 	./bin/test

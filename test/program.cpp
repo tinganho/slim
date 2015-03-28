@@ -18,31 +18,19 @@ TEST_F(ScannerTest, Newline) {
 }
 
 TEST_F(ScannerTest, Space) {
-  string source = " ";
-  Scanner scanner(&source);
-  SyntaxKind result = scanner.nextToken();
-  EXPECT_EQ(result, SyntaxKind::WhitespaceTrivia);
+  expectStringToEqualToken(" ", SyntaxKind::WhitespaceTrivia);
 }
 
 TEST_F(ScannerTest, Tab) {
-  string source = "\t";
-  Scanner scanner(&source);
-  SyntaxKind result = scanner.nextToken();
-  EXPECT_EQ(result, SyntaxKind::WhitespaceTrivia);
+  expectStringToEqualToken("\t", SyntaxKind::WhitespaceTrivia);
 }
 
 TEST_F(ScannerTest, FormFeed) {
-  string source = "\f";
-  Scanner scanner(&source);
-  SyntaxKind result = scanner.nextToken();
-  EXPECT_EQ(result, SyntaxKind::WhitespaceTrivia);
+  expectStringToEqualToken("\f", SyntaxKind::WhitespaceTrivia);
 }
 
 TEST_F(ScannerTest, VerticalTab) {
-  string source = "\v";
-  Scanner scanner(&source);
-  SyntaxKind result = scanner.nextToken();
-  EXPECT_EQ(result, SyntaxKind::WhitespaceTrivia);
+  expectStringToEqualToken("\v", SyntaxKind::WhitespaceTrivia);
 }
 
 int main(int argc, char **argv) {
