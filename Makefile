@@ -8,6 +8,7 @@ LIBS = \
 
 TEST = \
 	test/program.cpp \
+	test/test.utils.cpp \
 
 INCLUDES = \
 	-I./compiler/ \

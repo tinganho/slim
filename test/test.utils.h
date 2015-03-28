@@ -16,6 +16,6 @@
 using namespace std;
 
 
-void testToken(string source, SyntaxKind token);
+void expectStringToEqualToken(string source, SyntaxKind token);
 
 #endif /* defined(__Slim__test__) */

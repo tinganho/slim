@@ -175,8 +175,6 @@ enum SyntaxKind {
   GreaterThanEqualsToken,
   EqualsEqualsToken,
   ExclamationEqualsToken,
-  EqualsEqualsEqualsToken,
-  ExclamationEqualsEqualsToken,
   EqualsGreaterThanToken,
   PlusToken,
   MinusToken,

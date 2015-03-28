@@ -94,6 +94,7 @@ Scanner::Scanner(string source) {
 
 Scanner::~Scanner() {}
 
+
 SyntaxKind Scanner::getIdentifierToken() {
   int len = m_tokenValue.length();
   if (len >= 2 && len <= 11) {
@@ -106,6 +107,7 @@ SyntaxKind Scanner::getIdentifierToken() {
   }
   return SyntaxKind::Identifier;
 }
+
 
 string Scanner::scanIdentifierParts () {
   string result = "";
@@ -122,6 +124,7 @@ string Scanner::scanIdentifierParts () {
   result += (*m_source).substr(start, m_pos - start);
   return result;
 }
+
 
 SyntaxKind Scanner::nextToken() {
   m_ch = (*m_source).at(m_pos);
@@ -160,7 +163,15 @@ SyntaxKind Scanner::nextToken() {
           m_pos++;
         }
         return m_token = SyntaxKind::WhitespaceTrivia;
-        
+
+
+      // Exclamation
+      case CharCode::Exclamation:
+        if ((*m_source).at(m_pos + 1) == CharCode::Equals) {
+          return m_pos += 2, m_token = SyntaxKind::ExclamationEqualsToken;
+        }
+        return m_pos++, m_token = SyntaxKind::ExclamationToken;
+
 
       // Default
       default:

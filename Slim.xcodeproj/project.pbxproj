@@ -45,6 +45,7 @@
 		8EEEEABD1AC6B753002B8A02 /* Slim-doc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = "Slim-doc"; path = "/Users/tinganho/Development/slim/build/Debug/Slim-doc"; sourceTree = "<absolute>"; };
 		8EEEEACC1AC6B9AC002B8A02 /* test.utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.utils.cpp; sourceTree = "<group>"; };
 		8EEEEACD1AC6B9AC002B8A02 /* test.utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test.utils.h; sourceTree = "<group>"; };
+		8EEEEAD01AC70EB3002B8A02 /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +79,7 @@
 				8E8213941AC27C82000901D0 /* .editorconfig */,
 				8E1434221AC26D7C002523CA /* .gitignore */,
 				8E8213911AC27961000901D0 /* .gitattributes */,
+				8EEEEAD01AC70EB3002B8A02 /* .travis.yml */,
 				8E8213931AC27A14000901D0 /* Changelog.md */,
 				8E8213921AC279E7000901D0 /* Readme.md */,
 			);

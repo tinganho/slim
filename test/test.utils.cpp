@@ -1,9 +1,15 @@
 
-#include "test.h"
+
+#include <string>
+#include "test.utils.h"
+#include "scanner.h"
 #include "gtest/gtest.h"
 
-void testToken(string* source, SyntaxKind token) {
+
+using namespace std;
+
+
+void expectStringToEqualToken(string source, SyntaxKind token) {
   Scanner scanner(&source);
-  SyntaxKind result = scanner.nextToken();
-  EXPECT_EQ(result, SyntaxKind::WhitespaceTrivia);
+  EXPECT_EQ(scanner.nextToken(), token);
 }

@@ -14,10 +14,7 @@ protected:
 };
 
 TEST_F(ScannerTest, Newline) {
-  string source = "\n";
-  Scanner scanner(&source);
-  SyntaxKind result = scanner.nextToken();
-  EXPECT_EQ(result, SyntaxKind::NewLineTrivia);
+  expectStringToEqualToken("\n", SyntaxKind::NewLineTrivia);
 }
 
 TEST_F(ScannerTest, Space) {
