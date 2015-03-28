@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Slim-doc.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>Slim.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -48,6 +53,11 @@
 			<true/>
 		</dict>
 		<key>8ECA9CB81AC53F0500D3FCD8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8EEEEABC1AC6B753002B8A02</key>
 		<dict>
 			<key>primary</key>
 			<true/>

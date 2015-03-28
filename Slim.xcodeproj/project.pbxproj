@@ -6,6 +6,28 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8EEEEAC51AC6B766002B8A02 /* program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E82ABAD1AC191B0009080F0 /* program.cpp */; };
+		8EEEEAC61AC6B766002B8A02 /* scanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E9614EA1AC19DD1004A85AD /* scanner.cpp */; };
+		8EEEEAC71AC6B766002B8A02 /* scanner.h in Sources */ = {isa = PBXBuildFile; fileRef = 8E9614EB1AC19DD1004A85AD /* scanner.h */; };
+		8EEEEAC81AC6B766002B8A02 /* types.h in Sources */ = {isa = PBXBuildFile; fileRef = 8E8213901AC27428000901D0 /* types.h */; };
+		8EEEEAC91AC6B766002B8A02 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E8213951AC29618000901D0 /* utils.cpp */; };
+		8EEEEACA1AC6B766002B8A02 /* utils.h in Sources */ = {isa = PBXBuildFile; fileRef = 8E8213961AC29618000901D0 /* utils.h */; };
+		8EEEEACB1AC6B76B002B8A02 /* program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E82148D1AC30488000901D0 /* program.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8EEEEABB1AC6B753002B8A02 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		8E1434221AC26D7C002523CA /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		8E8213901AC27428000901D0 /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = types.h; path = compiler/types.h; sourceTree = SOURCE_ROOT; };
@@ -20,7 +42,19 @@
 		8E82ABAD1AC191B0009080F0 /* program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = program.cpp; sourceTree = "<group>"; };
 		8E9614EA1AC19DD1004A85AD /* scanner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = scanner.cpp; path = compiler/scanner.cpp; sourceTree = SOURCE_ROOT; };
 		8E9614EB1AC19DD1004A85AD /* scanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = scanner.h; path = compiler/scanner.h; sourceTree = SOURCE_ROOT; usesTabs = 0; };
+		8EEEEABD1AC6B753002B8A02 /* Slim-doc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Slim-doc"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EEEEAC01AC6B753002B8A02 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8EEEEABA1AC6B753002B8A02 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		8E82148C1AC30475000901D0 /* test */ = {
@@ -43,6 +77,8 @@
 				8E8213911AC27961000901D0 /* .gitattributes */,
 				8E8213931AC27A14000901D0 /* Changelog.md */,
 				8E8213921AC279E7000901D0 /* Readme.md */,
+				8EEEEABF1AC6B753002B8A02 /* Slim-doc */,
+				8EEEEABE1AC6B753002B8A02 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +103,22 @@
 			path = Compiler;
 			sourceTree = "<group>";
 		};
+		8EEEEABE1AC6B753002B8A02 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8EEEEABD1AC6B753002B8A02 /* Slim-doc */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8EEEEABF1AC6B753002B8A02 /* Slim-doc */ = {
+			isa = PBXGroup;
+			children = (
+				8EEEEAC01AC6B753002B8A02 /* main.cpp */,
+			);
+			path = "Slim-doc";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
@@ -84,20 +136,27 @@
 			passBuildSettingsInEnvironment = 1;
 			productName = Slim;
 		};
-		8ECA9CB81AC53F0500D3FCD8 /* slim-doc */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "$(ACTION)";
-			buildConfigurationList = 8ECA9CBB1AC53F0500D3FCD8 /* Build configuration list for PBXLegacyTarget "slim-doc" */;
+/* End PBXLegacyTarget section */
+
+/* Begin PBXNativeTarget section */
+		8EEEEABC1AC6B753002B8A02 /* Slim-doc */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EEEEAC21AC6B753002B8A02 /* Build configuration list for PBXNativeTarget "Slim-doc" */;
 			buildPhases = (
+				8EEEEAB91AC6B753002B8A02 /* Sources */,
+				8EEEEABA1AC6B753002B8A02 /* Frameworks */,
+				8EEEEABB1AC6B753002B8A02 /* CopyFiles */,
 			);
-			buildToolPath = /usr/bin/make;
+			buildRules = (
+			);
 			dependencies = (
 			);
-			name = "slim-doc";
-			passBuildSettingsInEnvironment = 1;
-			productName = "slim-doc";
+			name = "Slim-doc";
+			productName = "Slim-doc";
+			productReference = 8EEEEABD1AC6B753002B8A02 /* Slim-doc */;
+			productType = "com.apple.product-type.tool";
 		};
-/* End PBXLegacyTarget section */
+/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		8E82AB961AC18A34009080F0 /* Project object */ = {
@@ -108,7 +167,7 @@
 					8E82ABB71AC19572009080F0 = {
 						CreatedOnToolsVersion = 6.2;
 					};
-					8ECA9CB81AC53F0500D3FCD8 = {
+					8EEEEABC1AC6B753002B8A02 = {
 						CreatedOnToolsVersion = 6.2;
 					};
 				};
@@ -121,14 +180,32 @@
 				en,
 			);
 			mainGroup = 8E82AB951AC18A34009080F0;
+			productRefGroup = 8EEEEABE1AC6B753002B8A02 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8E82ABB71AC19572009080F0 /* Slim */,
-				8ECA9CB81AC53F0500D3FCD8 /* slim-doc */,
+				8EEEEABC1AC6B753002B8A02 /* Slim-doc */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8EEEEAB91AC6B753002B8A02 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EEEEACB1AC6B76B002B8A02 /* program.cpp in Sources */,
+				8EEEEAC51AC6B766002B8A02 /* program.cpp in Sources */,
+				8EEEEAC61AC6B766002B8A02 /* scanner.cpp in Sources */,
+				8EEEEAC71AC6B766002B8A02 /* scanner.h in Sources */,
+				8EEEEAC81AC6B766002B8A02 /* types.h in Sources */,
+				8EEEEAC91AC6B766002B8A02 /* utils.cpp in Sources */,
+				8EEEEACA1AC6B766002B8A02 /* utils.h in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
 		8E82AB9A1AC18A34009080F0 /* Debug */ = {
@@ -225,7 +302,7 @@
 			};
 			name = Release;
 		};
-		8ECA9CB91AC53F0500D3FCD8 /* Debug */ = {
+		8EEEEAC31AC6B753002B8A02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -243,11 +320,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUGGING_SYMBOLS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -263,14 +338,12 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
-		8ECA9CBA1AC53F0500D3FCD8 /* Release */ = {
+		8EEEEAC41AC6B753002B8A02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -300,8 +373,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -328,14 +399,13 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8ECA9CBB1AC53F0500D3FCD8 /* Build configuration list for PBXLegacyTarget "slim-doc" */ = {
+		8EEEEAC21AC6B753002B8A02 /* Build configuration list for PBXNativeTarget "Slim-doc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8ECA9CB91AC53F0500D3FCD8 /* Debug */,
-				8ECA9CBA1AC53F0500D3FCD8 /* Release */,
+				8EEEEAC31AC6B753002B8A02 /* Debug */,
+				8EEEEAC41AC6B753002B8A02 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

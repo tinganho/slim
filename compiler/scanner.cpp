@@ -122,6 +122,8 @@ SyntaxKind Scanner::nextToken() {
       break;
     }
     switch (m_ch) {
+
+      // New-lines
       case CharCode::LineFeed:
       case CharCode::CarriageReturn:
         precedingLineBreak = true;
@@ -136,6 +138,20 @@ SyntaxKind Scanner::nextToken() {
           m_pos++;
         }
         return m_token = SyntaxKind::NewLineTrivia;
+
+
+      // White-space
+      case CharCode::Tab:
+      case CharCode::VerticalTab:
+      case CharCode::FormFeed:
+      case CharCode::Space:
+        while (m_pos < m_len && isWhiteSpace((*m_source).at(m_pos))) {
+          m_pos++;
+        }
+        return m_token = SyntaxKind::WhitespaceTrivia;
+
+
+      // Default
       default:
         if (isIdentifierStart(m_ch)) {
           m_pos++;
@@ -146,8 +162,7 @@ SyntaxKind Scanner::nextToken() {
           if (m_ch == CharCode::Backslash) {
             m_tokenValue += scanIdentifierParts();
           }
-          m_token = getIdentifierToken();
-          break;
+          return m_token = getIdentifierToken();
         }
         else if (isWhiteSpace(m_ch)) {
           m_pos++;

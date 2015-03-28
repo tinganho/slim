@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8ECA9CB81AC53F0500D3FCD8"
-               BuildableName = "slim-doc"
-               BlueprintName = "slim-doc"
+               BlueprintIdentifier = "8EEEEABC1AC6B753002B8A02"
+               BuildableName = "Slim-doc"
+               BlueprintName = "Slim-doc"
                ReferencedContainer = "container:Slim.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,6 +29,15 @@
       buildConfiguration = "Debug">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "8EEEEABC1AC6B753002B8A02"
+            BuildableName = "Slim-doc"
+            BlueprintName = "Slim-doc"
+            ReferencedContainer = "container:Slim.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -39,15 +48,16 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8ECA9CB81AC53F0500D3FCD8"
-            BuildableName = "slim-doc"
-            BlueprintName = "slim-doc"
+            BlueprintIdentifier = "8EEEEABC1AC6B753002B8A02"
+            BuildableName = "Slim-doc"
+            BlueprintName = "Slim-doc"
             ReferencedContainer = "container:Slim.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -57,15 +67,16 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8ECA9CB81AC53F0500D3FCD8"
-            BuildableName = "slim-doc"
-            BlueprintName = "slim-doc"
+            BlueprintIdentifier = "8EEEEABC1AC6B753002B8A02"
+            BuildableName = "Slim-doc"
+            BlueprintName = "Slim-doc"
             ReferencedContainer = "container:Slim.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
