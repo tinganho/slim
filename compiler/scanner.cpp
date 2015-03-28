@@ -85,9 +85,10 @@ Scanner::Scanner(string* source) {
 }
 
 
-Scanner::Scanner(string fsource) {
-  string* tmpSource = "" + fsource;
-  Scanner(&tmpSource);
+Scanner::Scanner(string source) {
+  m_source = &source;
+  m_pos = 0;
+  m_len = (source).length();
 }
 
 
@@ -131,6 +132,7 @@ SyntaxKind Scanner::nextToken() {
       break;
     }
     switch (m_ch) {
+
 
       // New-lines
       case CharCode::LineFeed:

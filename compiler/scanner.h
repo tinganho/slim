@@ -40,7 +40,7 @@ private:
   string scanIdentifierParts();
 public:
   Scanner(string* source);
-  Scanner(string source) : Scanner(string* source);
+  Scanner(string source);
   ~Scanner();
 
   // Get next token from scanner
