@@ -103,7 +103,7 @@ enum CharCode {
   Ampersand = 0x26,             // &
   Asterisk = 0x2A,              // *
   At = 0x40,                    // @
-  Backslash = 0x5C,             // \
+  Backslash = 0x5C,             
   Backtick = 0x60,              // `
   Bar = 0x7C,                   // |
   Caret = 0x5E,                 // ^
@@ -389,12 +389,15 @@ enum SyntaxKind {
 
   // Enum
   EnumMember,
+  
   // Top-level nodes
   SourceFile,
 
   // Synthesized list
+  
   SyntaxList,
   // Enum value count
+  
   Count,
   // Markers
   FirstAssignment = EqualsToken,

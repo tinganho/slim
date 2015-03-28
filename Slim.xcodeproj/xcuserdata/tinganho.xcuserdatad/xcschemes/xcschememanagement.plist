@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>slim-doc.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -18,6 +23,31 @@
 			<true/>
 		</dict>
 		<key>8E82ABB71AC19572009080F0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8E8B7A171AC40B9500686684</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8E8B7A1B1AC40BD900686684</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8E8B7A1F1AC40BEB00686684</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8E8B7A231AC40CFC00686684</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8ECA9CB81AC53F0500D3FCD8</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -3,16 +3,24 @@ OPTIONS = \
 	-std=c++11 \
 	-stdlib=libc++ \
 
-MAINSRCS = \
-  compiler/program.cpp \
-  compiler/scanner.cpp \
+LIBS = \
+	compiler/scanner.cpp \
+
+TEST = \
+	test/program.cpp \
 
 INCLUDES = \
-  -I./includes/\
-  -I./compiler/\
+	-I./compiler/ \
+	-I./includes/gtest-1.7.0/include \
 
 OUTPUT = \
   ./bin/slim
 
+.PHONY: all test clean
+
 all:
-	clang++ -O3 $(OPTIONS) $(INCLUDES) $(MAINSRCS) -o $(OUTPUT)
+	clang++ -O3 $(OPTIONS) $(INCLUDES) $(LIBS) ./compiler/program.cpp -o $(OUTPUT)
+
+test:
+	clang++ -g -Wall $(OPTIONS) $(INCLUDES) $(TEST) $(LIBS) -L/usr/local/lib -lgtest_clang   -o ./bin/test
+	./bin/test

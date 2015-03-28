@@ -2,6 +2,7 @@
 
 #include <string>
 #include <map>
+#include <iostream>
 #include "scanner.h"
 #include "types.h"
 #include "utils.h"
@@ -10,45 +11,13 @@
 using namespace std;
 
 
-// Current character code
-unsigned int ch;
-
-
-// Current position.
-unsigned int pos = 0;
-
-
-// Current position of token.
-unsigned int tokenPos = 0;
-
-
-// Start position.
-unsigned int startPos = 0;
-
-
-// Token value.
-string tokenValue;
-
-
-// Current lengt of source file.
-int len;
-
-
-// Current token.
-SyntaxKind token;
-
-
-// Current source.
-string* source;
-
-
 // Flag for preceding linebreak.
 bool precedingLineBreak = false;
 
 
 map<string, SyntaxKind> textToToken {
-  {"any", SyntaxKind::AnyKeyword},
-  {"break", SyntaxKind::BreakKeyword}
+  { "any", SyntaxKind::AnyKeyword},
+  { "break", SyntaxKind::BreakKeyword}
 };
 
 
@@ -108,100 +77,93 @@ bool isLineBreak(int ch) {
   ch == CharCode::NextLine;
 }
 
-
-string scanIdentifierParts () {
-    string result = "";
-    unsigned int start = pos;
-    while (pos < len) {
-      unsigned int ch = (int)(*source)[pos];
-      if (isIdentifierPart(ch)) {
-        pos++;
-      }
-      else {
-        break;
-      }
-    }
-    result += (*source).substr(start, pos - start);
-    return result;
+Scanner::Scanner(string* source) {
+  m_source = source;
+  m_pos = 0;
+  m_len = (*source).length();
 }
+Scanner::~Scanner() {}
 
-
-SyntaxKind getIdentifierToken() {
-  int len = tokenValue.length();
+SyntaxKind Scanner::getIdentifierToken() {
+  int len = m_tokenValue.length();
   if (len >= 2 && len <= 11) {
-    int ch = tokenValue.at(0);
+    int ch = m_tokenValue.at(0);
     if (ch >= CharCode::a && ch <= CharCode::z
-    && textToToken.find(tokenValue) != textToToken.end()) {
-      token = textToToken.at(tokenValue);
-      return token;
+        && textToToken.find(m_tokenValue) != textToToken.end()) {
+      m_token = textToToken.at(m_tokenValue);
+      return m_token;
     }
   }
   return SyntaxKind::Identifier;
 }
 
-
-string createScanner(string* mainSource) {
-  source = mainSource;
-  while (true) {
-    tokenPos = pos;
-    if (pos >= len) {
-      token = SyntaxKind::EndOfFileToken;
+string Scanner::scanIdentifierParts () {
+  string result = "";
+  unsigned int start = m_pos;
+  while (m_pos < m_len) {
+    unsigned int m_ch = (int)(*m_source)[m_pos];
+    if (isIdentifierPart(m_ch)) {
+      m_pos++;
+    }
+    else {
       break;
     }
-    switch(ch) {
+  }
+  result += (*m_source).substr(start, m_pos - start);
+  return result;
+}
+
+SyntaxKind Scanner::nextToken() {
+  m_ch = (*m_source).at(m_pos);
+  while (true) {
+    m_tokenPos = m_pos;
+    if (m_pos >= m_len) {
+      m_token = SyntaxKind::EndOfFileToken;
+      break;
+    }
+    switch (m_ch) {
       case CharCode::LineFeed:
       case CharCode::CarriageReturn:
         precedingLineBreak = true;
-        if (ch == CharCode::CarriageReturn
-        && pos + 1 < len
-        && (int)(*source)[pos + 1] == CharCode::LineFeed) {
+        if (m_ch == CharCode::CarriageReturn
+        && m_pos + 1 < m_len
+        && (int)(*m_source)[m_pos + 1] == CharCode::LineFeed) {
 
           // Consume both CR and LF.
-          pos += 2;
+          m_pos += 2;
         }
         else {
-          pos++;
+          m_pos++;
         }
-        token = SyntaxKind::NewLineTrivia;
-        break;
+        return m_token = SyntaxKind::NewLineTrivia;
       default:
-        if (isIdentifierStart(ch)) {
-          pos++;
-          while (pos < len && isIdentifierPart(ch = (int)(*source)[pos]))
-            pos++;
-          tokenValue = (*source).substr(tokenPos, pos - tokenPos);
-          if (ch == CharCode::Backslash) {
-            tokenValue += scanIdentifierParts();
+        if (isIdentifierStart(m_ch)) {
+          m_pos++;
+          while (m_pos < m_len && isIdentifierPart(m_ch = (int)(*m_source)[m_pos])) {
+            m_pos++;
           }
-          token = getIdentifierToken();
+          m_tokenValue = (*m_source).substr(m_tokenPos, m_pos - m_tokenPos);
+          if (m_ch == CharCode::Backslash) {
+            m_tokenValue += scanIdentifierParts();
+          }
+          m_token = getIdentifierToken();
           break;
         }
-        else if (isWhiteSpace(ch)) {
-          pos++;
+        else if (isWhiteSpace(m_ch)) {
+          m_pos++;
           continue;
         }
-        else if (isLineBreak(ch)) {
+        else if (isLineBreak(m_ch)) {
           precedingLineBreak = true;
-          pos++;
+          m_pos++;
           continue;
         }
-        pos++;
-        token = SyntaxKind::Unknown;
+        m_pos++;
+        m_token = SyntaxKind::Unknown;
     }
   }
 
-  return *source;
-}
+  std::cout << m_token;
 
-void setTextPos(int textPos) {
-  pos = textPos;
-  startPos = textPos;
-  token = SyntaxKind::Unknown;
-  precedingLineBreak = false;
-}
-
-void setText(string newText) {
-  string text = newText;
-  len = text.length();
-  setTextPos(0);
-}
+  return m_token;
+};
