@@ -77,11 +77,20 @@ bool isLineBreak(int ch) {
   ch == CharCode::NextLine;
 }
 
+
 Scanner::Scanner(string* source) {
   m_source = source;
   m_pos = 0;
   m_len = (*source).length();
 }
+
+
+Scanner::Scanner(string fsource) {
+  string* tmpSource = "" + fsource;
+  Scanner(&tmpSource);
+}
+
+
 Scanner::~Scanner() {}
 
 SyntaxKind Scanner::getIdentifierToken() {
@@ -149,7 +158,7 @@ SyntaxKind Scanner::nextToken() {
           m_pos++;
         }
         return m_token = SyntaxKind::WhitespaceTrivia;
-
+        
 
       // Default
       default:
@@ -177,8 +186,6 @@ SyntaxKind Scanner::nextToken() {
         m_token = SyntaxKind::Unknown;
     }
   }
-
-  std::cout << m_token;
 
   return m_token;
 };

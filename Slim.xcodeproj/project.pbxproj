@@ -42,8 +42,9 @@
 		8E82ABAD1AC191B0009080F0 /* program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = program.cpp; sourceTree = "<group>"; };
 		8E9614EA1AC19DD1004A85AD /* scanner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = scanner.cpp; path = compiler/scanner.cpp; sourceTree = SOURCE_ROOT; };
 		8E9614EB1AC19DD1004A85AD /* scanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = scanner.h; path = compiler/scanner.h; sourceTree = SOURCE_ROOT; usesTabs = 0; };
-		8EEEEABD1AC6B753002B8A02 /* Slim-doc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Slim-doc"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8EEEEAC01AC6B753002B8A02 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		8EEEEABD1AC6B753002B8A02 /* Slim-doc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = "Slim-doc"; path = "/Users/tinganho/Development/slim/build/Debug/Slim-doc"; sourceTree = "<absolute>"; };
+		8EEEEACC1AC6B9AC002B8A02 /* test.utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.utils.cpp; sourceTree = "<group>"; };
+		8EEEEACD1AC6B9AC002B8A02 /* test.utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test.utils.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +62,8 @@
 			isa = PBXGroup;
 			children = (
 				8E82148D1AC30488000901D0 /* program.cpp */,
+				8EEEEACC1AC6B9AC002B8A02 /* test.utils.cpp */,
+				8EEEEACD1AC6B9AC002B8A02 /* test.utils.h */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -77,8 +80,6 @@
 				8E8213911AC27961000901D0 /* .gitattributes */,
 				8E8213931AC27A14000901D0 /* Changelog.md */,
 				8E8213921AC279E7000901D0 /* Readme.md */,
-				8EEEEABF1AC6B753002B8A02 /* Slim-doc */,
-				8EEEEABE1AC6B753002B8A02 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,22 +102,6 @@
 			);
 			name = compiler;
 			path = Compiler;
-			sourceTree = "<group>";
-		};
-		8EEEEABE1AC6B753002B8A02 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8EEEEABD1AC6B753002B8A02 /* Slim-doc */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		8EEEEABF1AC6B753002B8A02 /* Slim-doc */ = {
-			isa = PBXGroup;
-			children = (
-				8EEEEAC01AC6B753002B8A02 /* main.cpp */,
-			);
-			path = "Slim-doc";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -180,7 +165,7 @@
 				en,
 			);
 			mainGroup = 8E82AB951AC18A34009080F0;
-			productRefGroup = 8EEEEABE1AC6B753002B8A02 /* Products */;
+			productRefGroup = 8E82AB951AC18A34009080F0;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -406,6 +391,7 @@
 				8EEEEAC41AC6B753002B8A02 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
