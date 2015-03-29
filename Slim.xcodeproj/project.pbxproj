@@ -141,7 +141,6 @@
 		8EEEEAF21AC71991002B8A02 /* gtest-all.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gtest-all.cc"; sourceTree = "<group>"; };
 		8EEEEAF31AC71991002B8A02 /* gtest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gtest.h; sourceTree = "<group>"; };
 		8EEEEAF41AC71991002B8A02 /* gtest_main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gtest_main.cc; sourceTree = "<group>"; };
-		8EEEEAF51AC71991002B8A02 /* gtest-all.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "gtest-all.o"; sourceTree = "<group>"; };
 		8EEEEAF81AC71991002B8A02 /* gtest-death-test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-death-test.h"; sourceTree = "<group>"; };
 		8EEEEAF91AC71991002B8A02 /* gtest-message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-message.h"; sourceTree = "<group>"; };
 		8EEEEAFA1AC71991002B8A02 /* gtest-param-test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-param-test.h"; sourceTree = "<group>"; };
@@ -179,7 +178,6 @@
 		8EEEEB1D1AC71991002B8A02 /* libgtest_main.lai */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libgtest_main.lai; sourceTree = "<group>"; };
 		8EEEEB1E1AC71991002B8A02 /* libgtest.la */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libgtest.la; sourceTree = "<group>"; };
 		8EEEEB1F1AC71991002B8A02 /* libgtest_main.la */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libgtest_main.la; sourceTree = "<group>"; };
-		8EEEEB201AC71991002B8A02 /* libgtest_clang.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgtest_clang.a; sourceTree = "<group>"; };
 		8EEEEB211AC71991002B8A02 /* libtool */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = libtool; sourceTree = "<group>"; };
 		8EEEEB221AC71991002B8A02 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8EEEEB241AC71991002B8A02 /* acx_pthread.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acx_pthread.m4; sourceTree = "<group>"; };
@@ -257,7 +255,6 @@
 		8EEEEB761AC71991002B8A02 /* gtest_main.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = gtest_main.o; sourceTree = "<group>"; };
 		8EEEEB771AC71991002B8A02 /* gtest-all.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gtest-all.cc"; sourceTree = "<group>"; };
 		8EEEEB781AC71991002B8A02 /* gtest-all.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gtest-all.lo"; sourceTree = "<group>"; };
-		8EEEEB791AC71991002B8A02 /* gtest-all.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "gtest-all.o"; sourceTree = "<group>"; };
 		8EEEEB7A1AC71991002B8A02 /* gtest-death-test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gtest-death-test.cc"; sourceTree = "<group>"; };
 		8EEEEB7B1AC71991002B8A02 /* gtest-filepath.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gtest-filepath.cc"; sourceTree = "<group>"; };
 		8EEEEB7C1AC71991002B8A02 /* gtest-internal-inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-internal-inl.h"; sourceTree = "<group>"; };
@@ -268,7 +265,6 @@
 		8EEEEB811AC71991002B8A02 /* gtest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gtest.cc; sourceTree = "<group>"; };
 		8EEEEB821AC71991002B8A02 /* gtest_main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gtest_main.cc; sourceTree = "<group>"; };
 		8EEEEB831AC71991002B8A02 /* gtest_main.lo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gtest_main.lo; sourceTree = "<group>"; };
-		8EEEEB841AC71991002B8A02 /* gtest_main.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = gtest_main.o; sourceTree = "<group>"; };
 		8EEEEB871AC71991002B8A02 /* gtest_all_test.Po */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gtest_all_test.Po; sourceTree = "<group>"; };
 		8EEEEB881AC71991002B8A02 /* gtest-death-test_ex_test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gtest-death-test_ex_test.cc"; sourceTree = "<group>"; };
 		8EEEEB891AC71991002B8A02 /* gtest-death-test_test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gtest-death-test_test.cc"; sourceTree = "<group>"; };
@@ -474,10 +470,8 @@
 				8EEEEAEB1AC71991002B8A02 /* configure.ac */,
 				8EEEEAEC1AC71991002B8A02 /* CONTRIBUTORS */,
 				8EEEEAED1AC71991002B8A02 /* fused-src */,
-				8EEEEAF51AC71991002B8A02 /* gtest-all.o */,
 				8EEEEAF61AC71991002B8A02 /* include */,
 				8EEEEB111AC71991002B8A02 /* lib */,
-				8EEEEB201AC71991002B8A02 /* libgtest_clang.a */,
 				8EEEEB211AC71991002B8A02 /* libtool */,
 				8EEEEB221AC71991002B8A02 /* LICENSE */,
 				8EEEEB231AC71991002B8A02 /* m4 */,
@@ -767,7 +761,6 @@
 				8EEEEB741AC71991002B8A02 /* .libs */,
 				8EEEEB771AC71991002B8A02 /* gtest-all.cc */,
 				8EEEEB781AC71991002B8A02 /* gtest-all.lo */,
-				8EEEEB791AC71991002B8A02 /* gtest-all.o */,
 				8EEEEB7A1AC71991002B8A02 /* gtest-death-test.cc */,
 				8EEEEB7B1AC71991002B8A02 /* gtest-filepath.cc */,
 				8EEEEB7C1AC71991002B8A02 /* gtest-internal-inl.h */,
@@ -778,7 +771,6 @@
 				8EEEEB811AC71991002B8A02 /* gtest.cc */,
 				8EEEEB821AC71991002B8A02 /* gtest_main.cc */,
 				8EEEEB831AC71991002B8A02 /* gtest_main.lo */,
-				8EEEEB841AC71991002B8A02 /* gtest_main.o */,
 			);
 			path = src;
 			sourceTree = "<group>";
