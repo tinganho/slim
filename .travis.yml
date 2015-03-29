@@ -1,12 +1,15 @@
 language: cpp
 
+
 compiler:
   - clang++
+
 
 # Setup repos etc before installation
 before_install:
   - if [ "$CXX" == "clang++" -a "$CPP14" == "0" ]; then sudo add-apt-repository -y ppa:h-rayflood/llvm; fi
   - sudo apt-get update -qq
+
 
 # Install dependencies
 install:
@@ -24,9 +27,11 @@ install:
   - if [ "$CXX" == "clang++" ]; then sudo ln -sf libc++.so.1.0 libc++.so.1 && cd $TRAVIS_BUILD_DIR; fi
   - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.5"; fi
 
+
 branches:
   only:
     - master
+
 
 script:
   - make test
