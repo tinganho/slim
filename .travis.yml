@@ -13,6 +13,7 @@ before_install:
 # Install dependencies
 install:
 # clang 3.4
+  - ls -la /usr/include
   - cp /usr/include/c++/4.6/cxxabi.h /usr/local/include/
   - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.5; fi
   - if [ "$CXX" == "clang++" ]; then export CXXFLAGS="-std=c++0x -stdlib=libc++"; fi
