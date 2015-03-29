@@ -24,4 +24,5 @@ install:
 
 script:
   - pwd
+  - ls -la
   - make test
