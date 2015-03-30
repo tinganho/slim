@@ -9,7 +9,8 @@
 using namespace std;
 
 
-void expectStringToEqualToken(string source, SyntaxKind token) {
+Scanner expectStringToEqualToken(string source, SyntaxKind token) {
   Scanner scanner(&source);
   EXPECT_EQ(scanner.scan(), token);
+  return scanner;
 }

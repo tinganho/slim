@@ -54,6 +54,8 @@ public:
 
   // Get next token from scanner
   SyntaxKind scan();
+  string getTokenValue();
+  unsigned int getStartPos();
   void setErrorCallback(ErrorCallback error);
   string scanString();
   string scanEscapeSequence();

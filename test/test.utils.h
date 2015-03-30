@@ -12,12 +12,12 @@
 
 #include <string>
 #include "types.h"
-
+#include "scanner.h"
 
 using namespace std;
 
 
-void expectStringToEqualToken(string source, SyntaxKind token);
+Scanner expectStringToEqualToken(string source, SyntaxKind token);
 
 
 #endif /* defined(__Slim__test__) */

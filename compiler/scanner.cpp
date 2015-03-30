@@ -115,6 +115,16 @@ void Scanner::setErrorCallback(ErrorCallback error) {
 }
 
 
+string Scanner::getTokenValue() {
+  return m_tokenValue;
+}
+
+
+unsigned int Scanner::getStartPos() {
+  return m_startPos;
+}
+
+
 string Scanner::scanIdentifierParts () {
   string result = "";
   unsigned int start = m_pos;
@@ -189,7 +199,7 @@ string Scanner::scanEscapeSequence() {
 
 
 string Scanner::scanString() {
-  char quote = (*m_source).at(m_pos++);
+  int quote = (int)(*m_source).at(m_pos++);
   string result = "";
   unsigned int start = m_pos;
   while (true) {
@@ -201,7 +211,7 @@ string Scanner::scanString() {
     }
     unsigned int ch = (*m_source).at(m_pos);
     if (ch == quote) {
-      result += (*m_source).substr(start, m_pos - start + 1);
+      result += (*m_source).substr(start, m_pos - start);
       m_pos++;
       break;
     }
@@ -211,7 +221,7 @@ string Scanner::scanString() {
       start = m_pos;
       continue;
     }
-    if (isLineBreak(ch)) {
+    if (isLineBreak((char)ch)) {
       result += (*m_source).substr(start, m_pos - start + 1);
       m_tokenIsUnterminated = true;
       m_error(Diagnostic::UnterminatedStringLiteral);
@@ -243,8 +253,6 @@ SyntaxKind Scanner::scan() {
         if (m_ch == CharCode::CarriageReturn
         && m_pos + 1 < m_len
         && (int)(*m_source)[m_pos + 1] == CharCode::LineFeed) {
-
-          // Consume both CR and LF.
           m_pos += 2;
         }
         else {

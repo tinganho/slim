@@ -50,10 +50,12 @@ namespace ExclamationTests {
 
 namespace StringLiterals {
   TEST_F(ScannerTest, SingleQuote) {
-    expectStringToEqualToken("\'hej\'", SyntaxKind::StringLiteral);
+    Scanner scanner = expectStringToEqualToken("\'hej\'", SyntaxKind::StringLiteral);
+    EXPECT_EQ(scanner.getTokenValue(), "hej");
   }
 
-  TEST_F(ScannerTest, DoublQuote) {
-    expectStringToEqualToken("\"hej\"", SyntaxKind::StringLiteral);
+  TEST_F(ScannerTest, DoubleQuote) {
+    Scanner scanner = expectStringToEqualToken("\"hej\"", SyntaxKind::StringLiteral);
+    EXPECT_EQ(scanner.getTokenValue(), "hej");
   }
 }

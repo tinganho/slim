@@ -44,6 +44,10 @@ test: gtest.a
 	clang++ -g -Wall $(OPTIONS) $(INCLUDES) $(TEST) $(LIBS) -L./bin -lgtest -o ./bin/test
 
 
+runtest: test
+	./bin/test
+
+
 gtest-all.o: $(GTEST_SRCS_)
 	clang++ $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c $(GTEST_DIR)/src/gtest-all.cc
 
