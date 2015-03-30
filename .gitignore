@@ -2,8 +2,9 @@
 
 # Built binary files
 bin/
+*.o
 
-# Xcode 
+# Xcode
 .DS_Store
 build/
 *.pbxuser
