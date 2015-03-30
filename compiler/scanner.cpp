@@ -126,13 +126,15 @@ string Scanner::scanIdentifierParts () {
 }
 
 
-SyntaxKind Scanner::nextToken() {
+SyntaxKind Scanner::scan() {
+  if (m_pos >= m_len) {
+    return m_token = SyntaxKind::EndOfFileToken;
+  }
   m_ch = (*m_source).at(m_pos);
   while (true) {
     m_tokenPos = m_pos;
     if (m_pos >= m_len) {
-      m_token = SyntaxKind::EndOfFileToken;
-      break;
+      return m_token = SyntaxKind::EndOfFileToken;
     }
     switch (m_ch) {
 
@@ -167,7 +169,7 @@ SyntaxKind Scanner::nextToken() {
 
       // Exclamation
       case CharCode::Exclamation:
-        if ((*m_source).at(m_pos + 1) == CharCode::Equals) {
+        if (m_pos + 1 != m_len && (*m_source).at(m_pos + 1) == CharCode::Equals) {
           return m_pos += 2, m_token = SyntaxKind::ExclamationEqualsToken;
         }
         return m_pos++, m_token = SyntaxKind::ExclamationToken;

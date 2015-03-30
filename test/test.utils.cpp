@@ -11,5 +11,5 @@ using namespace std;
 
 void expectStringToEqualToken(string source, SyntaxKind token) {
   Scanner scanner(&source);
-  EXPECT_EQ(scanner.nextToken(), token);
+  EXPECT_EQ(scanner.scan(), token);
 }

@@ -46,7 +46,7 @@ public:
   ~Scanner();
 
   // Get next token from scanner
-  SyntaxKind nextToken();
+  SyntaxKind scan();
 };
 
 #endif

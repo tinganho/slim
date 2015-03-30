@@ -13,25 +13,42 @@ protected:
   virtual void TearDown() {}
 };
 
-TEST_F(ScannerTest, Newline) {
-  expectStringToEqualToken("\n", SyntaxKind::NewLineTrivia);
+namespace WhiteSpaceTests {
+  TEST_F(ScannerTest, Newline) {
+    expectStringToEqualToken("\n", SyntaxKind::NewLineTrivia);
+  }
+
+  TEST_F(ScannerTest, Space) {
+    expectStringToEqualToken(" ", SyntaxKind::WhitespaceTrivia);
+  }
+
+  TEST_F(ScannerTest, Tab) {
+    expectStringToEqualToken("\t", SyntaxKind::WhitespaceTrivia);
+  }
+
+  TEST_F(ScannerTest, FormFeed) {
+    expectStringToEqualToken("\f", SyntaxKind::WhitespaceTrivia);
+  }
+
+  TEST_F(ScannerTest, VerticalTab) {
+    expectStringToEqualToken("\v", SyntaxKind::WhitespaceTrivia);
+  }
+
+  TEST_F(ScannerTest, EndOfFile) {
+    expectStringToEqualToken("", SyntaxKind::EndOfFileToken);
+  }
 }
 
-TEST_F(ScannerTest, Space) {
-  expectStringToEqualToken(" ", SyntaxKind::WhitespaceTrivia);
+namespace ExclamationTests {
+  TEST_F(ScannerTest, Exclamation) {
+    expectStringToEqualToken("!", SyntaxKind::ExclamationToken);
+  }
+
+  TEST_F(ScannerTest, ExclamationEqual) {
+    expectStringToEqualToken("!", SyntaxKind::ExclamationEqualsToken);
+  }
 }
 
-TEST_F(ScannerTest, Tab) {
-  expectStringToEqualToken("\t", SyntaxKind::WhitespaceTrivia);
-}
-
-TEST_F(ScannerTest, FormFeed) {
-  expectStringToEqualToken("\f", SyntaxKind::WhitespaceTrivia);
-}
-
-TEST_F(ScannerTest, VerticalTab) {
-  expectStringToEqualToken("\v", SyntaxKind::WhitespaceTrivia);
-}
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
