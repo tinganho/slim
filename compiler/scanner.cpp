@@ -6,6 +6,7 @@
 #include "scanner.h"
 #include "types.h"
 #include "utils.h"
+#include "diagnostics.h"
 
 
 using namespace std;
@@ -109,6 +110,11 @@ SyntaxKind Scanner::getIdentifierToken() {
 }
 
 
+void Scanner::setErrorCallback(ErrorCallback error) {
+  m_error = error;
+}
+
+
 string Scanner::scanIdentifierParts () {
   string result = "";
   unsigned int start = m_pos;
@@ -122,6 +128,97 @@ string Scanner::scanIdentifierParts () {
     }
   }
   result += (*m_source).substr(start, m_pos - start);
+  return result;
+}
+
+
+string Scanner::scanEscapeSequence() {
+  m_pos++;
+  if (m_pos >= m_len) {
+    m_error(Diagnostic::UnexpectEndOfInput);
+    return "";
+  }
+  char ch = (*m_source).at(m_pos++);
+  switch (ch) {
+    case CharCode::_0:
+      return "\0";
+    case CharCode::b:
+      return "\b";
+    case CharCode::t:
+      return "\t";
+    case CharCode::n:
+      return "\n";
+    case CharCode::v:
+      return "\v";
+    case CharCode::f:
+      return "\f";
+    case CharCode::r:
+      return "\r";
+    case CharCode::SingleQuote:
+      return "\'";
+    case CharCode::DoubleQuote:
+      return "\"";
+//    case CharCode::u:
+//      // '\u{DDDDDDDD}'
+//      if (m_pos < m_len && (*m_source).at(m_pos) == CharCode::OpenBrace) {
+//        hasExtendedUnicodeEscape = true;
+//        pos++;
+//        return scanExtendedUnicodeEscape();
+//      }
+//
+//      // '\uDDDD'
+//      return scanHexadecimalEscape(/*numDigits*/ 4)
+//
+//    case CharCode::x:
+//      // '\xDD'
+//      return scanHexadecimalEscape(/*numDigits*/ 2)
+//
+//      // when encountering a LineContinuation (i.e. a backslash and a line terminator sequence),
+//      // the line terminator is interpreted to be "the empty code unit sequence".
+//    case CharacterCodes.carriageReturn:
+//      if (m_pos < m_len && (*m_source).at(m_pos) == CharCode::LineFeed) {
+//        m_pos++;
+//      }
+      // fall through
+    case CharCode::LineFeed:
+      return "";
+    default:
+      return string(1, ch);
+  }
+}
+
+
+string Scanner::scanString() {
+  char quote = (*m_source).at(m_pos++);
+  string result = "";
+  unsigned int start = m_pos;
+  while (true) {
+    if (m_pos >= m_len) {
+      result += (*m_source).substr(start, m_pos - start + 1);
+      m_tokenIsUnterminated = true;
+      m_error(Diagnostic::UnterminatedStringLiteral);
+      break;
+    }
+    unsigned int ch = (*m_source).at(m_pos);
+    if (ch == quote) {
+      result += (*m_source).substr(start, m_pos - start + 1);
+      m_pos++;
+      break;
+    }
+    if (ch == CharCode::Backslash) {
+      result += (*m_source).substr(start, m_pos - start + 1);
+      result += scanEscapeSequence();
+      start = m_pos;
+      continue;
+    }
+    if (isLineBreak(ch)) {
+      result += (*m_source).substr(start, m_pos - start + 1);
+      m_tokenIsUnterminated = true;
+      m_error(Diagnostic::UnterminatedStringLiteral);
+      break;
+    }
+    m_pos++;
+  }
   return result;
 }
 
@@ -173,6 +270,13 @@ SyntaxKind Scanner::scan() {
           return m_pos += 2, m_token = SyntaxKind::ExclamationEqualsToken;
         }
         return m_pos++, m_token = SyntaxKind::ExclamationToken;
+
+
+      // String literals
+      case CharCode::DoubleQuote:
+      case CharCode::SingleQuote:
+        m_tokenValue = scanString();
+        return m_token = SyntaxKind::StringLiteral;
 
 
       // Default

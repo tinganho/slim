@@ -2,6 +2,14 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+
+#include <string>
+#include "diagnostics.h"
+
+
+using namespace std;
+
+
 enum CharCode {
   NullCharacter = 0,
   MaxAsciiCharacter = 0x7F,
@@ -422,5 +430,9 @@ enum SyntaxKind {
   LastBinaryOperator = CaretEqualsToken,
   FirstNode = QualifiedName
 };
+
+
+// Error callback definitition
+typedef void (*ErrorCallback)(Diagnostic);
 
 #endif

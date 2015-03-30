@@ -95,7 +95,7 @@
          <EnvironmentVariable
             key = "GTEST_BREAK_ON_FAILURE"
             value = "1"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "GTEST_CATCH_EXCEPTIONS"

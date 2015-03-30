@@ -8,6 +8,7 @@
 
 using namespace std;
 
+
 // Create scanner
 class Scanner {
 private:
@@ -23,6 +24,12 @@ private:
 
   // Start position.
   unsigned int m_startPos = 0;
+
+  // Token is unterminated flag
+  bool m_tokenIsUnterminated;
+
+  // Error callback
+  ErrorCallback m_error;
 
   // Token value.
   string m_tokenValue;
@@ -47,6 +54,9 @@ public:
 
   // Get next token from scanner
   SyntaxKind scan();
+  void setErrorCallback(ErrorCallback error);
+  string scanString();
+  string scanEscapeSequence();
 };
 
 #endif
