@@ -48,6 +48,7 @@ namespace ExclamationTests {
   }
 }
 
+
 namespace StringLiterals {
   TEST_F(ScannerTest, SingleQuote) {
     Scanner scanner = expectStringToEqualToken("\'hej\'", SyntaxKind::StringLiteral);
