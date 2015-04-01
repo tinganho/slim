@@ -7,6 +7,8 @@
 #include "types.h"
 #include "utils.h"
 #include "diagnostics.h"
+#include "parser.h"
+#include <functional>
 
 
 using namespace std;
@@ -110,6 +112,13 @@ SyntaxKind Scanner::getIdentifierToken() {
 }
 
 
+void Scanner::error(Diagnostic diagnostic) {
+  if (m_error != NULL) {
+    m_error(diagnostic);
+  }
+}
+
+
 void Scanner::setErrorCallback(ErrorCallback error) {
   m_error = error;
 }
@@ -145,7 +154,7 @@ string Scanner::scanIdentifierParts () {
 string Scanner::scanEscapeSequence() {
   m_pos++;
   if (m_pos >= m_len) {
-    m_error(Diagnostic::UnexpectEndOfInput);
+    error(Diagnostic::UnexpectEndOfInput);
     return "";
   }
   char ch = (*m_source).at(m_pos++);
@@ -199,19 +208,19 @@ string Scanner::scanEscapeSequence() {
 
 
 string Scanner::scanString() {
+  unsigned int start = m_pos;
   int quote = (int)(*m_source).at(m_pos++);
   string result = "";
-  unsigned int start = m_pos;
   while (true) {
     if (m_pos >= m_len) {
       result += (*m_source).substr(start, m_pos - start + 1);
       m_tokenIsUnterminated = true;
-      m_error(Diagnostic::UnterminatedStringLiteral);
+      error(Diagnostic::UnterminatedStringLiteral);
       break;
     }
     unsigned int ch = (*m_source).at(m_pos);
     if (ch == quote) {
-      result += (*m_source).substr(start, m_pos - start);
+      result += (*m_source).substr(start, m_pos - start + 1);
       m_pos++;
       break;
     }
@@ -224,7 +233,7 @@ string Scanner::scanString() {
     if (isLineBreak((char)ch)) {
       result += (*m_source).substr(start, m_pos - start + 1);
       m_tokenIsUnterminated = true;
-      m_error(Diagnostic::UnterminatedStringLiteral);
+      error(Diagnostic::UnterminatedStringLiteral);
       break;
     }
     m_pos++;
@@ -285,6 +294,35 @@ SyntaxKind Scanner::scan() {
       case CharCode::SingleQuote:
         m_tokenValue = scanString();
         return m_token = SyntaxKind::StringLiteral;
+
+
+      // Plus
+      case CharCode::Plus:
+        if (m_pos + 1 < m_len) {
+          if ((*m_source).at(m_pos + 1) == CharCode::Plus) {
+            return m_pos += 2, m_token = SyntaxKind::PlusPlusToken;
+          }
+          if ((*m_source).at(m_pos + 1) == CharCode::Equals) {
+            return m_pos += 2, m_token = SyntaxKind::PlusEqualsToken;
+          }
+        }
+        return m_pos++, m_token = SyntaxKind::PlusToken;
+
+
+      // Parens
+      case CharCode::OpenParen:
+        return m_pos++, m_token = SyntaxKind::OpenParenToken;
+      case CharCode::CloseParen:
+        return m_pos++, m_token = SyntaxKind::CloseParenToken;
+      case CharCode::OpenBrace:
+        return m_pos++, m_token = SyntaxKind::OpenBraceToken;
+      case CharCode::CloseBrace:
+        return m_pos++, m_token = SyntaxKind::CloseBraceToken;
+
+
+      // Commma
+      case CharCode::Comma:
+        return m_pos++, m_token = SyntaxKind::CommaToken;
 
 
       // Default

@@ -5,6 +5,8 @@ OPTIONS = \
 
 LIBS = \
 	compiler/scanner.cpp \
+	compiler/parser.cpp \
+	compiler/utils.cpp \
 
 TEST = \
 	test/program.cpp \

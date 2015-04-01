@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8E2F1A591AC9946200DCCC4F /* scanner.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E2F1A571AC9946200DCCC4F /* scanner.test.cpp */; };
+		8EC06E161ACA8706003CA78E /* parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC06E141ACA8706003CA78E /* parser.cpp */; };
+		8EC06E191ACA9857003CA78E /* parser.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC06E171ACA9857003CA78E /* parser.test.cpp */; };
 		8EEEEAC51AC6B766002B8A02 /* program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E82ABAD1AC191B0009080F0 /* program.cpp */; };
 		8EEEEAC61AC6B766002B8A02 /* scanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E9614EA1AC19DD1004A85AD /* scanner.cpp */; };
 		8EEEEAC71AC6B766002B8A02 /* scanner.h in Sources */ = {isa = PBXBuildFile; fileRef = 8E9614EB1AC19DD1004A85AD /* scanner.h */; };
@@ -99,6 +101,7 @@
 /* Begin PBXFileReference section */
 		8E1434221AC26D7C002523CA /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		8E2F1A571AC9946200DCCC4F /* scanner.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scanner.test.cpp; path = compiler/scanner.test.cpp; sourceTree = SOURCE_ROOT; };
+		8E5521361ACAD53800829FA8 /* Slim-doc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Slim-doc"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E8213901AC27428000901D0 /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = types.h; path = compiler/types.h; sourceTree = SOURCE_ROOT; };
 		8E8213911AC27961000901D0 /* .gitattributes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitattributes; sourceTree = "<group>"; };
 		8E8213921AC279E7000901D0 /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
@@ -111,7 +114,9 @@
 		8E82ABAD1AC191B0009080F0 /* program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = program.cpp; sourceTree = "<group>"; };
 		8E9614EA1AC19DD1004A85AD /* scanner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = scanner.cpp; path = compiler/scanner.cpp; sourceTree = SOURCE_ROOT; };
 		8E9614EB1AC19DD1004A85AD /* scanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = scanner.h; path = compiler/scanner.h; sourceTree = SOURCE_ROOT; usesTabs = 0; };
-		8ECB837A1AC97F6700710938 /* Slim-doc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = "Slim-doc"; path = "/Users/tinganho/Development/slim/build/Debug/Slim-doc"; sourceTree = "<absolute>"; };
+		8EC06E141ACA8706003CA78E /* parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = parser.cpp; path = compiler/parser.cpp; sourceTree = SOURCE_ROOT; };
+		8EC06E151ACA8706003CA78E /* parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parser.h; path = compiler/parser.h; sourceTree = SOURCE_ROOT; };
+		8EC06E171ACA9857003CA78E /* parser.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = parser.test.cpp; path = compiler/parser.test.cpp; sourceTree = SOURCE_ROOT; };
 		8EEEEACC1AC6B9AC002B8A02 /* test.utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.utils.cpp; sourceTree = "<group>"; };
 		8EEEEACD1AC6B9AC002B8A02 /* test.utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test.utils.h; sourceTree = "<group>"; };
 		8EEEEAD01AC70EB3002B8A02 /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
@@ -435,6 +440,7 @@
 				8EEEEAD01AC70EB3002B8A02 /* .travis.yml */,
 				8E8213931AC27A14000901D0 /* Changelog.md */,
 				8E8213921AC279E7000901D0 /* Readme.md */,
+				8E5521361ACAD53800829FA8 /* Slim-doc */,
 			);
 			sourceTree = "<group>";
 		};
@@ -450,8 +456,11 @@
 			isa = PBXGroup;
 			children = (
 				8E82ABAD1AC191B0009080F0 /* program.cpp */,
-				8E9614EB1AC19DD1004A85AD /* scanner.h */,
+				8EC06E141ACA8706003CA78E /* parser.cpp */,
+				8EC06E151ACA8706003CA78E /* parser.h */,
+				8EC06E171ACA9857003CA78E /* parser.test.cpp */,
 				8E9614EA1AC19DD1004A85AD /* scanner.cpp */,
+				8E9614EB1AC19DD1004A85AD /* scanner.h */,
 				8E2F1A571AC9946200DCCC4F /* scanner.test.cpp */,
 				8E8213901AC27428000901D0 /* types.h */,
 				8E8213951AC29618000901D0 /* utils.cpp */,
@@ -1250,7 +1259,7 @@
 			);
 			name = "Slim-doc";
 			productName = "Slim-doc";
-			productReference = 8ECB837A1AC97F6700710938 /* Slim-doc */;
+			productReference = 8E5521361ACAD53800829FA8 /* Slim-doc */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -1368,10 +1377,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EC06E161ACA8706003CA78E /* parser.cpp in Sources */,
 				8EEEEC4C1AC961E0002B8A02 /* diagnostics.cpp in Sources */,
 				8EEEEACB1AC6B76B002B8A02 /* program.cpp in Sources */,
 				8EEEEAC51AC6B766002B8A02 /* program.cpp in Sources */,
 				8EEEEAC61AC6B766002B8A02 /* scanner.cpp in Sources */,
+				8EC06E191ACA9857003CA78E /* parser.test.cpp in Sources */,
 				8E2F1A591AC9946200DCCC4F /* scanner.test.cpp in Sources */,
 				8EEEEAC71AC6B766002B8A02 /* scanner.h in Sources */,
 				8EEEEAC81AC6B766002B8A02 /* types.h in Sources */,

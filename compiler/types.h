@@ -4,6 +4,7 @@
 
 
 #include <string>
+#include <vector>
 #include "diagnostics.h"
 
 
@@ -432,7 +433,70 @@ enum SyntaxKind {
 };
 
 
+enum Modifier {
+  Export =            0x00000001,  // Declarations
+  Ambient =           0x00000002,  // Declarations
+  Public =            0x00000010,  // Property/Method
+  Private =           0x00000020,  // Property/Method
+  Protected =         0x00000040,  // Property/Method
+  Static =            0x00000080,  // Property/Method
+  Default =           0x00000100,  // Function/Class (export default declaration)
+  MultiLine =         0x00000200,  // Multi-line array or object literal
+  Synthetic =         0x00000400,  // Synthetic node (for full fidelity)
+  DeclarationFile =   0x00000800,  // Node is a .d.ts file
+  Let =               0x00001000,  // Variable declaration
+  Const =             0x00002000,  // Variable declaration
+  OctalLiteral =      0x00004000,
+
+  Modifier = Export | Ambient | Public | Private | Protected | Static | Default,
+  AccessibilityModifier = Public | Private | Protected
+};
+
+
+enum ParsingContext {
+  SourceElements,            // Elements in source file
+  ModuleElements,            // Elements in module declaration
+  BlockStatements,           // Statements in block
+  SwitchClauses,             // Clauses in switch statement
+  SwitchClauseStatements,    // Statements in switch clause
+  TypeMembers,               // Members in interface or type literal
+  ClassMembers,              // Members in class declaration
+  EnumMembers,               // Members in enum declaration
+  TypeReferences,            // Type references in extends or implements clause
+  VariableDeclarations,      // Variable declarations in variable statement
+  ObjectBindingElements,     // Binding elements in object binding list
+  ArrayBindingElements,      // Binding elements in array binding list
+  ArgumentExpressions,       // Expressions in argument list
+  ObjectLiteralMembers,      // Members in object literal
+  ArrayLiteralMembers,       // Members in array literal
+  Parameters,                // Parameters in parameter list
+  TypeParameters,            // Type parameters in type parameter list
+  TypeArguments,             // Type arguments in type argument list
+  TupleElementTypes,         // Element types in tuple element type list
+  HeritageClauses,           // Heritage clauses for a class or interface declaration.
+  ImportOrExportSpecifiers,  // Named import clause's import specifier list
+};
+
+
 // Error callback definitition
 typedef void (*ErrorCallback)(Diagnostic);
+
+
+struct TextRange {
+  int start;
+  int end;
+};
+struct Node: TextRange {
+  SyntaxKind kind;
+  vector<enum Modifier> modifiers;
+};
+
+
+struct SourceFile {
+  string* source;
+  vector<Node> statements;
+  string fileName;
+};
+
 
 #endif
