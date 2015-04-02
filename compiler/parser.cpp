@@ -1,11 +1,15 @@
 
 
 #include <vector>
+#include <iostream>
 #include <functional>
 #include "parser.h"
 #include "scanner.h"
 #include "types.h"
 #include "utils.h"
+
+
+using namespace std;
 
 
 Parser::Parser() {};
@@ -16,25 +20,39 @@ Parser::~Parser() {
 };
 
 
-struct SourceFile Parser::parseSourceFile(string fileName, string* source) {
+Node* Parser::createNode(SyntaxKind kind, int start) {
+  vector<enum Modifier> modifiers;
+  Node node = {
+    start,
+    start,
+    kind,
+    modifiers
+  }, *node2;
+  node2 = &node;
+  return node2;
+}
+
+
+struct SourceFile* Parser::parseSourceFile(string fileName, string* source) {
   m_parsingContext = ParsingContext::SourceElements;
 
   // Create source file node
-  struct SourceFile sourceFile;
+  struct SourceFile sourceFile, *sourceFile2;
   sourceFile.source = source;
   sourceFile.fileName = fileName;
   m_scanner = new Scanner(source);
   nextToken();
   sourceFile.statements = parseList(m_parsingContext, std::bind(&Parser::parseSourceElement, this));
-  return sourceFile;
+  sourceFile2 = &sourceFile;
+  return sourceFile2;
 }
 
 
-vector<Node> Parser::parseList(ParsingContext parsingContext, std::function<Node()> parseElement) {
-  vector<Node> result;
-  while (isListTerminator(parsingContext)) {
+vector<Node*> Parser::parseList(ParsingContext parsingContext, std::function<Node*()> parseElement) {
+  vector<Node*> result;
+  while (!isListTerminator(parsingContext)) {
     if (isListElement(parsingContext, /*inErrorRecovery:*/ false)) {
-      Node element = parseElement();
+      Node* element = parseElement();
       result.push_back(element);
     }
   }
@@ -169,7 +187,6 @@ bool Parser::isStartOfStatement(bool inErrorRecovery) {
       // outer module.  We just want to consume and move on.
       return !inErrorRecovery;
     case SyntaxKind::OpenBraceToken:
-    case SyntaxKind::VarKeyword:
     case SyntaxKind::LetKeyword:
     case SyntaxKind::FunctionKeyword:
     case SyntaxKind::IfKeyword:
@@ -344,21 +361,20 @@ int Parser::getNodePos() {
 }
 
 
-Node Parser::parseSourceElement() {
+Node* Parser::parseSourceElement() {
   return isDeclarationStart()
     ? parseDeclaration()
     : parseDeclaration();
 }
 
 
-Node Parser::parseDeclaration() {
+Node* Parser::parseDeclaration() {
   int fullStart = getNodePos();
   vector<enum Modifier> modifiers = parseModifiers();
   switch (m_token) {
-    case SyntaxKind::VarKeyword:
     case SyntaxKind::LetKeyword:
-    case SyntaxKind::ConstKeyword:
-      return parseVariableDeclaration(fullStart, modifiers);
+    case SyntaxKind::SetKeyword:
+      return parseVariableStatement(fullStart, modifiers);
 //    case SyntaxKind.FunctionKeyword:
 //      return parseFunctionDeclaration(fullStart, modifiers);
 //    case SyntaxKind.ClassKeyword:
@@ -376,7 +392,7 @@ Node Parser::parseDeclaration() {
     default:
       throw "Mismatch between isDeclarationStart and parseDeclaration";
   }
-  return parseVariableDeclaration(fullStart, modifiers);
+  return parseVariableStatement(fullStart, modifiers);
 }
 
 
@@ -385,10 +401,113 @@ vector<enum Modifier> Parser::parseModifiers() {
   return modifiers;
 }
 
-
-Node Parser::parseVariableDeclaration(int start, vector<enum Modifier> modifiers) {
-
+void Parser::setModifiers(Node* node, vector<enum Modifier> modifiers) {
+  node->modifiers = modifiers;
 }
+
+
+Node* Parser::finishNode(Node* node) {
+  (*node).end = m_scanner->getStartPos();
+  return node;
+}
+
+
+Node* Parser::parseVariableStatement(int start, vector<enum Modifier> modifiers) {
+  Node* node = createNode(SyntaxKind::VariableStatement, start);
+  setModifiers(node, modifiers);
+  parseVariableDeclaration(static_cast<struct VariableDeclaration*>(node));
+  parseSemicolon();
+  return finishNode(node);
+}
+
+
+struct Identifier* Parser::createIdentifier(bool isIdentifier, Diagnostic diagnostic) {
+  m_identifierCount++;
+  if (isIdentifier) {
+    struct Identifier* node = static_cast<struct Identifier*>(
+      createNode(SyntaxKind::Identifier, getNodePos())
+    );
+    node->text = m_scanner->getTokenValue();
+    nextToken();
+    return static_cast<struct Identifier*>(finishNode(static_cast<struct Node*>(node)));
+  }
+  else {
+    throw "Expected identifier";
+  }
+}
+
+
+struct Identifier* Parser::parseIdentifier() {
+  return createIdentifier(isIdentifier(), Diagnostic::ExpectedIdentifier);
+};
+
+
+void Parser::parseVariableDeclaration(struct VariableDeclaration* node) {
+  switch (m_token) {
+    case SyntaxKind::LetKeyword:
+      node->mutable_ = true;
+      break;
+    case SyntaxKind::SetKeyword:
+      node->mutable_ = false;
+      break;
+    default:
+      throw "Token must begin with let or set.";
+  }
+
+  nextToken();
+
+  node->name = parseIdentifier();
+//  node->type = parseTypeAnnotation();
+//  if (!isInOrOfKeyword(token)) {
+//    node.initializer = parseInitializer(/*inParameter*/ false);
+//  }
+}
+
+bool Parser::canParseSemicolon() {
+  // If there's a real semicolon, then we can always parse it out.
+  if (m_token == SyntaxKind::SemicolonToken) {
+    return true;
+  }
+
+  // We can parse out an optional semicolon in ASI cases in the following cases.
+  return m_token == SyntaxKind::CloseBraceToken || m_token == SyntaxKind::EndOfFileToken || m_scanner->hasPrecedingLineBreak();
+}
+
+
+bool Parser::parseExpected(SyntaxKind kind) {
+  if (m_token == kind) {
+    nextToken();
+    return true;
+  }
+
+  return false;
+}
+
+
+bool Parser::parseExpected(SyntaxKind kind, Diagnostic diagnostic) {
+  if (m_token == kind) {
+    nextToken();
+    return true;
+  }
+
+  return false;
+}
+
+
+bool Parser::parseSemicolon() {
+  if (canParseSemicolon()) {
+    if (m_token == SyntaxKind::SemicolonToken) {
+      // consume the semicolon if it was explicitly provided.
+      nextToken();
+    }
+
+    return true;
+  }
+  else {
+    return parseExpected(SyntaxKind::SemicolonToken);
+  }
+}
+
 
 bool Parser::isIdentifierOrKeyword() {
   return m_token >= SyntaxKind::Identifier;
@@ -450,7 +569,6 @@ T Parser::speculationHelper(std::function<T()> callback, bool isLookAhead) {
 
 bool Parser::isDeclarationStart() {
   switch (m_token) {
-    case SyntaxKind::VarKeyword:
     case SyntaxKind::ConstKeyword:
     case SyntaxKind::FunctionKeyword:
       return true;

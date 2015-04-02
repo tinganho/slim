@@ -14,11 +14,12 @@ protected:
 };
 
 
-namespace WhiteSpaceTests {
-  TEST_F(ParserTest, Newline) {
-    string source = "int main() {}";
+namespace VariableDeclarationTest {
+  TEST_F(ParserTest, VariableDeclaration) {
+    string source = "let variable = 1";
     Parser parser;
-    struct SourceFile sourceFile = parser.parseSourceFile("file.s", &source);
-    EXPECT_EQ(sourceFile.statements[0].kind, SyntaxKind::CallExpression);
+    struct SourceFile* sourceFile = parser.parseSourceFile("file.s", &source);
+//    EXPECT_EQ("fw", SyntaxKind::VariableStatement);
+    delete sourceFile;
   }
 }

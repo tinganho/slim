@@ -20,7 +20,8 @@ using namespace std;
 
 enum Diagnostic {
   UnexpectEndOfInput,
-  UnterminatedStringLiteral
+  UnterminatedStringLiteral,
+  ExpectedIdentifier
 };
 
 

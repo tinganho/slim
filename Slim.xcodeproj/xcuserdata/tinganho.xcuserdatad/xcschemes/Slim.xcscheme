@@ -100,7 +100,7 @@
          <EnvironmentVariable
             key = "GTEST_CATCH_EXCEPTIONS"
             value = "1"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>

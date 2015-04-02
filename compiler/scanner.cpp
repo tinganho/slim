@@ -19,7 +19,8 @@ bool precedingLineBreak = false;
 
 
 map<string, SyntaxKind> textToToken {
-  { "any", SyntaxKind::AnyKeyword},
+  { "let", SyntaxKind::LetKeyword },
+  { "any", SyntaxKind::AnyKeyword },
   { "break", SyntaxKind::BreakKeyword}
 };
 
@@ -131,6 +132,11 @@ string Scanner::getTokenValue() {
 
 unsigned int Scanner::getStartPos() {
   return m_startPos;
+}
+
+
+bool Scanner::hasPrecedingLineBreak() {
+  return m_precedingLineBreak;
 }
 
 
@@ -246,28 +252,34 @@ SyntaxKind Scanner::scan() {
   if (m_pos >= m_len) {
     return m_token = SyntaxKind::EndOfFileToken;
   }
-  m_ch = (*m_source).at(m_pos);
   while (true) {
     m_tokenPos = m_pos;
     if (m_pos >= m_len) {
       return m_token = SyntaxKind::EndOfFileToken;
     }
+    m_ch = (*m_source).at(m_pos);
     switch (m_ch) {
 
 
       // New-lines
       case CharCode::LineFeed:
       case CharCode::CarriageReturn:
-        precedingLineBreak = true;
-        if (m_ch == CharCode::CarriageReturn
-        && m_pos + 1 < m_len
-        && (int)(*m_source)[m_pos + 1] == CharCode::LineFeed) {
-          m_pos += 2;
+        if (skipTrivia) {
+          m_pos++;
+          continue;
         }
         else {
-          m_pos++;
+          precedingLineBreak = true;
+          if (m_ch == CharCode::CarriageReturn
+              && m_pos + 1 < m_len
+              && (int)(*m_source)[m_pos + 1] == CharCode::LineFeed) {
+            m_pos += 2;
+          }
+          else {
+            m_pos++;
+          }
+          return m_token = SyntaxKind::NewLineTrivia;
         }
-        return m_token = SyntaxKind::NewLineTrivia;
 
 
       // White-space
@@ -275,10 +287,16 @@ SyntaxKind Scanner::scan() {
       case CharCode::VerticalTab:
       case CharCode::FormFeed:
       case CharCode::Space:
-        while (m_pos < m_len && isWhiteSpace((*m_source).at(m_pos))) {
+        if (skipTrivia) {
           m_pos++;
+          continue;
         }
-        return m_token = SyntaxKind::WhitespaceTrivia;
+        else {
+          while (m_pos < m_len && isWhiteSpace((*m_source).at(m_pos))) {
+            m_pos++;
+          }
+          return m_token = SyntaxKind::WhitespaceTrivia;
+        }
 
 
       // Exclamation

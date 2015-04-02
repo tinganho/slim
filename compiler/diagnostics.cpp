@@ -14,6 +14,8 @@ DiagnosticObject getDiagnostic(Diagnostic diagnostic) {
       return DiagnosticObject { 1001, "Unexpeted end of input." }
     case Diagnostic::UnterminatedStringLiteral:
       return DiagnosticObject { 1002, "Unterminated string literal." }
+    case Diagnostic::ExpectedIdentifier:
+      return DiagnosticObject { 1003, "Expected identifier." }
     default:
       break;
   }

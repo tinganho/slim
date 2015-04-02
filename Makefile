@@ -27,7 +27,7 @@ OUTPUT = \
 
 GTEST_DIR = ./includes/gtest-1.7.0
 
-CPPFLAGS += -isystem $(GTEST_DIR)/include -std=c++11 -stdlib=libc++
+CPPFLAGS += -isystem $(GTEST_DIR)/include -std=c++11 -stdlib=libc++ -Wmissing-braces -Wmissing-field-initializers
 
 CXXFLAGS += -g -Wall -pthread
 

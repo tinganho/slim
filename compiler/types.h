@@ -245,6 +245,7 @@ enum SyntaxKind {
   NewKeyword,
   NullKeyword,
   ReturnKeyword,
+  SetKeyword,
   SuperKeyword,
   SwitchKeyword,
   ThisKeyword,
@@ -252,7 +253,6 @@ enum SyntaxKind {
   TrueKeyword,
   TryKeyword,
   TypeOfKeyword,
-  VarKeyword,
   VoidKeyword,
   WhileKeyword,
   WithKeyword,
@@ -276,7 +276,6 @@ enum SyntaxKind {
   ModuleKeyword,
   RequireKeyword,
   NumberKeyword,
-  SetKeyword,
   StringKeyword,
   SymbolKeyword,
   TypeKeyword,
@@ -486,15 +485,42 @@ struct TextRange {
   int start;
   int end;
 };
+
+
 struct Node: TextRange {
+public:
+  Node(int start, int end, SyntaxKind kind, vector<enum Modifier> modifiers) {
+    this->start = start;
+    this->end = end;
+    this->kind = kind;
+    this->modifiers = modifiers;
+  }
   SyntaxKind kind;
   vector<enum Modifier> modifiers;
 };
 
 
+struct Identifier: Node {
+  Identifier(int start, int end, SyntaxKind kind, vector<enum Modifier> modifiers, string text): Node(start, end, kind, modifiers) {
+    this->text = text;
+  }
+  string text;
+};
+
+
+struct VariableDeclaration: Node {
+  VariableDeclaration(int start, int end, SyntaxKind kind, vector<enum Modifier> modifiers, bool mutable_): Node(start, end, kind, modifiers) {
+    this->mutable_ = mutable_;
+    this->name = NULL;
+  }
+  struct Identifier* name;
+  bool mutable_;
+};
+
+
 struct SourceFile {
   string* source;
-  vector<Node> statements;
+  vector<Node*> statements;
   string fileName;
 };
 
