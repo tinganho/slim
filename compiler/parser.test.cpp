@@ -19,7 +19,7 @@ namespace VariableDeclarationTest {
     string source = "let variable = 1";
     Parser parser;
     struct SourceFile* sourceFile = parser.parseSourceFile("file.s", &source);
-//    EXPECT_EQ("fw", SyntaxKind::VariableStatement);
+    EXPECT_EQ(sourceFile->statements[0]->kind, SyntaxKind::VariableStatement);
     delete sourceFile;
   }
 }

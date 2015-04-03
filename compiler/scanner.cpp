@@ -104,7 +104,7 @@ SyntaxKind Scanner::getIdentifierToken() {
   if (len >= 2 && len <= 11) {
     int ch = m_tokenValue.at(0);
     if (ch >= CharCode::a && ch <= CharCode::z
-        && textToToken.find(m_tokenValue) != textToToken.end()) {
+    && textToToken.find(m_tokenValue) != textToToken.end()) {
       m_token = textToToken.at(m_tokenValue);
       return m_token;
     }

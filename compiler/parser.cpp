@@ -22,14 +22,13 @@ Parser::~Parser() {
 
 Node* Parser::createNode(SyntaxKind kind, int start) {
   vector<enum Modifier> modifiers;
-  Node node = {
+  Node* node = new Node(
     start,
     start,
     kind,
     modifiers
-  }, *node2;
-  node2 = &node;
-  return node2;
+  );
+  return node;
 }
 
 
@@ -37,14 +36,13 @@ struct SourceFile* Parser::parseSourceFile(string fileName, string* source) {
   m_parsingContext = ParsingContext::SourceElements;
 
   // Create source file node
-  struct SourceFile sourceFile, *sourceFile2;
-  sourceFile.source = source;
-  sourceFile.fileName = fileName;
+  struct SourceFile* sourceFile = new struct SourceFile;
+  sourceFile->source = source;
+  sourceFile->fileName = fileName;
   m_scanner = new Scanner(source);
   nextToken();
-  sourceFile.statements = parseList(m_parsingContext, std::bind(&Parser::parseSourceElement, this));
-  sourceFile2 = &sourceFile;
-  return sourceFile2;
+  sourceFile->statements = parseList(m_parsingContext, std::bind(&Parser::parseSourceElement, this));
+  return sourceFile;
 }
 
 
@@ -455,6 +453,10 @@ void Parser::parseVariableDeclaration(struct VariableDeclaration* node) {
   }
 
   nextToken();
+
+  if(m_token) {
+
+  }
 
   node->name = parseIdentifier();
 //  node->type = parseTypeAnnotation();

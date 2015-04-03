@@ -41,8 +41,6 @@ private:
   // Current lengt of source file.
   int m_len;
 
-
-
   // Current token
   SyntaxKind m_token;
 

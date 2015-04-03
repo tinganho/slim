@@ -522,6 +522,12 @@ struct SourceFile {
   string* source;
   vector<Node*> statements;
   string fileName;
+  ~SourceFile() {
+    for (int i = 0; i < statements.size(); ++i) {
+      delete statements[i];
+    }
+    statements.clear();
+  }
 };
 
 
