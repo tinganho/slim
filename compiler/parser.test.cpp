@@ -16,10 +16,11 @@ protected:
 
 namespace VariableDeclarationTest {
   TEST_F(ParserTest, VariableDeclaration) {
-    string source = "let variable = 1";
+    string source = "let variable: int;";
     Parser parser;
     struct SourceFile* sourceFile = parser.parseSourceFile("file.s", &source);
     EXPECT_EQ(sourceFile->statements[0]->kind, SyntaxKind::VariableStatement);
-    delete sourceFile;
+//    EXPECT_EQ(static_cast<struct VariableDeclaration*>(sourceFile->statements[0])->name->text, "variable");
+//    delete sourceFile;
   }
 }

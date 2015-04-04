@@ -482,12 +482,13 @@ typedef void (*ErrorCallback)(Diagnostic);
 
 
 struct TextRange {
+public:
   int start;
   int end;
 };
 
 
-struct Node: TextRange {
+struct Node: public TextRange {
 public:
   Node(int start, int end, SyntaxKind kind, vector<enum Modifier> modifiers) {
     this->start = start;
@@ -495,12 +496,22 @@ public:
     this->kind = kind;
     this->modifiers = modifiers;
   }
+
+  Node(int start, int end, SyntaxKind kind) {
+    this->start = start;
+    this->end = end;
+    this->kind = kind;
+  }
+
+  virtual ~Node() {}
+
   SyntaxKind kind;
   vector<enum Modifier> modifiers;
 };
 
 
-struct Identifier: Node {
+struct Identifier: public Node {
+public:
   Identifier(int start, int end, SyntaxKind kind, vector<enum Modifier> modifiers, string text): Node(start, end, kind, modifiers) {
     this->text = text;
   }
@@ -508,13 +519,23 @@ struct Identifier: Node {
 };
 
 
-struct VariableDeclaration: Node {
+struct VariableDeclaration: public Node {
+public:
   VariableDeclaration(int start, int end, SyntaxKind kind, vector<enum Modifier> modifiers, bool mutable_): Node(start, end, kind, modifiers) {
     this->mutable_ = mutable_;
-    this->name = NULL;
   }
   struct Identifier* name;
+  struct TypeAnnotation* type;
   bool mutable_;
+};
+
+
+struct TypeAnnotation: public Node {
+public:
+  TypeAnnotation(int start, int end, SyntaxKind kind, string name): Node(start, end, kind) {
+    this->name = name;
+  }
+  string name;
 };
 
 
@@ -523,10 +544,10 @@ struct SourceFile {
   vector<Node*> statements;
   string fileName;
   ~SourceFile() {
-    for (int i = 0; i < statements.size(); ++i) {
-      delete statements[i];
-    }
-    statements.clear();
+//    for (int i = 0; i < statements.size(); ++i) {
+//      delete statements[i];
+//    }
+//    statements.clear();
   }
 };
 

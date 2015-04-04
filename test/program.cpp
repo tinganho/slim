@@ -1,5 +1,6 @@
 
 #include <string>
+#include <iostream>
 #include "gtest/gtest.h"
 #include "scanner.h"
 #include "types.h"

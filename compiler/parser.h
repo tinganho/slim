@@ -35,9 +35,11 @@ public:
   // Check if token is a start of a declaration.
   bool canParseSemicolon();
   struct Identifier* createIdentifier(bool isIdentifier, Diagnostic diagnostic);
-  Node* createNode(SyntaxKind kind, int start);
+  template <typename T>
+  T createNode(SyntaxKind kind, int start);
   Node currentNode();
-  Node* finishNode(Node* node);
+  template <typename T>
+  T finishNode(T node);
   bool isBinaryOperator();
   bool isDeclarationStart();
   bool isIdentifierOrKeyword();
@@ -50,6 +52,7 @@ public:
   bool isStartOfStatement(bool inErrorRecovery);
   unsigned short int getBinaryOperatorPrecedence();
   int getNodePos();
+  string getTokenValue();
   template<typename T>
   T lookAhead(std::function<T()> callback);
   SyntaxKind nextToken();
@@ -63,7 +66,8 @@ public:
   bool parseSemicolon();
   Node* parseSourceElement();
   struct SourceFile* parseSourceFile(string fileName, string* source);
-  Node* parseVariableStatement(int start, vector<enum Modifier> modifiers);
+  struct TypeAnnotation* parseTypeAnnotation();
+  struct VariableDeclaration* parseVariableStatement(int start, vector<enum Modifier> modifiers);
   void parseVariableDeclaration(struct VariableDeclaration* node);
   template<typename T>
   T speculationHelper(std::function<T()> callback, bool isLookAhead);

@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <functional>
+#include <stdexcept>
 #include "parser.h"
 #include "scanner.h"
 #include "types.h"
@@ -20,7 +21,8 @@ Parser::~Parser() {
 };
 
 
-Node* Parser::createNode(SyntaxKind kind, int start) {
+template <typename T>
+T Parser::createNode(SyntaxKind kind, int start) {
   vector<enum Modifier> modifiers;
   Node* node = new Node(
     start,
@@ -28,7 +30,7 @@ Node* Parser::createNode(SyntaxKind kind, int start) {
     kind,
     modifiers
   );
-  return node;
+  return static_cast<T>(node);
 }
 
 
@@ -50,7 +52,7 @@ vector<Node*> Parser::parseList(ParsingContext parsingContext, std::function<Nod
   vector<Node*> result;
   while (!isListTerminator(parsingContext)) {
     if (isListElement(parsingContext, /*inErrorRecovery:*/ false)) {
-      Node* element = parseElement();
+      Node* element = parseSourceElement();
       result.push_back(element);
     }
   }
@@ -65,10 +67,6 @@ bool Parser::isIdentifier() {
 
 
 bool Parser::isBinaryOperator() {
-  if (/*inDisallowInContext() &&*/ m_token == SyntaxKind::InKeyword) {
-    return false;
-  }
-
   return getBinaryOperatorPrecedence() > 0;
 }
 
@@ -248,11 +246,6 @@ bool Parser::isLiteralPropertyName() {
 
 
 bool Parser::isListElement(ParsingContext parsingContext, bool inErrorRecovery) {
-//    Node node = currentNode(parsingContext);
-//    if (node) {
-//      return true;
-//    }
-
     switch (parsingContext) {
       case ParsingContext::SourceElements:
       case ParsingContext::ModuleElements:
@@ -309,7 +302,6 @@ SyntaxKind Parser::nextToken() {
 
 bool Parser::isListTerminator(ParsingContext kind) {
   if (m_token == SyntaxKind::EndOfFileToken) {
-    // Being at the end of the file ends all lists.
     return true;
   }
 
@@ -388,7 +380,7 @@ Node* Parser::parseDeclaration() {
 //    case SyntaxKind.ImportKeyword:
 //      return parseImportDeclarationOrImportEqualsDeclaration(fullStart, modifiers);
     default:
-      throw "Mismatch between isDeclarationStart and parseDeclaration";
+      throw invalid_argument("Mismatch between isDeclarationStart and parseDeclaration");
   }
   return parseVariableStatement(fullStart, modifiers);
 }
@@ -399,38 +391,39 @@ vector<enum Modifier> Parser::parseModifiers() {
   return modifiers;
 }
 
+
 void Parser::setModifiers(Node* node, vector<enum Modifier> modifiers) {
   node->modifiers = modifiers;
 }
 
 
-Node* Parser::finishNode(Node* node) {
-  (*node).end = m_scanner->getStartPos();
+template <typename T>
+T Parser::finishNode(T node) {
+  (node)->end = m_scanner->getStartPos();
   return node;
 }
 
 
-Node* Parser::parseVariableStatement(int start, vector<enum Modifier> modifiers) {
-  Node* node = createNode(SyntaxKind::VariableStatement, start);
+struct VariableDeclaration* Parser::parseVariableStatement(int start, vector<enum Modifier> modifiers) {
+  struct VariableDeclaration* node = createNode<struct VariableDeclaration*>(SyntaxKind::VariableStatement, start);
   setModifiers(node, modifiers);
-  parseVariableDeclaration(static_cast<struct VariableDeclaration*>(node));
+  if(m_token)
+  parseVariableDeclaration(node);
   parseSemicolon();
-  return finishNode(node);
+  return finishNode<struct VariableDeclaration*>(node);
 }
 
 
 struct Identifier* Parser::createIdentifier(bool isIdentifier, Diagnostic diagnostic) {
   m_identifierCount++;
   if (isIdentifier) {
-    struct Identifier* node = static_cast<struct Identifier*>(
-      createNode(SyntaxKind::Identifier, getNodePos())
-    );
-    node->text = m_scanner->getTokenValue();
+    struct Identifier* identifier = createNode<struct Identifier*>(SyntaxKind::Identifier, getNodePos());
+    identifier->text = m_scanner->getTokenValue();
     nextToken();
-    return static_cast<struct Identifier*>(finishNode(static_cast<struct Node*>(node)));
+    return static_cast<struct Identifier*>(finishNode(static_cast<struct Node*>(identifier)));
   }
   else {
-    throw "Expected identifier";
+    throw invalid_argument("Expected identifier");
   }
 }
 
@@ -449,21 +442,38 @@ void Parser::parseVariableDeclaration(struct VariableDeclaration* node) {
       node->mutable_ = false;
       break;
     default:
-      throw "Token must begin with let or set.";
+      throw invalid_argument("Token must begin with let or set.");
   }
 
   nextToken();
 
-  if(m_token) {
-
-  }
-
   node->name = parseIdentifier();
-//  node->type = parseTypeAnnotation();
+  node->type = parseTypeAnnotation();
+
+
 //  if (!isInOrOfKeyword(token)) {
 //    node.initializer = parseInitializer(/*inParameter*/ false);
 //  }
 }
+
+struct TypeAnnotation* Parser::parseTypeAnnotation() {
+  if(parseExpected(SyntaxKind::ColonToken)) {
+    if(parseExpected(SyntaxKind::Identifier)) {
+      struct TypeAnnotation* typeAnnotation = createNode<struct TypeAnnotation*>(SyntaxKind::TypeReference, getNodePos());
+      typeAnnotation->name = getTokenValue();
+      if (m_token)
+      return typeAnnotation;
+    }
+  }
+
+  throw invalid_argument("Expected a colon token and an identifier");
+}
+
+
+string Parser::getTokenValue() {
+  return m_scanner->getTokenValue();
+}
+
 
 bool Parser::canParseSemicolon() {
   // If there's a real semicolon, then we can always parse it out.
@@ -475,7 +485,8 @@ bool Parser::canParseSemicolon() {
   return m_token == SyntaxKind::CloseBraceToken || m_token == SyntaxKind::EndOfFileToken || m_scanner->hasPrecedingLineBreak();
 }
 
-
+// Parse some expected token and throw away if the token is expected.
+// If the token is unexpected return false.
 bool Parser::parseExpected(SyntaxKind kind) {
   if (m_token == kind) {
     nextToken();
@@ -499,7 +510,6 @@ bool Parser::parseExpected(SyntaxKind kind, Diagnostic diagnostic) {
 bool Parser::parseSemicolon() {
   if (canParseSemicolon()) {
     if (m_token == SyntaxKind::SemicolonToken) {
-      // consume the semicolon if it was explicitly provided.
       nextToken();
     }
 

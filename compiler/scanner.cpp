@@ -343,6 +343,12 @@ SyntaxKind Scanner::scan() {
         return m_pos++, m_token = SyntaxKind::CommaToken;
 
 
+      case CharCode::Colon:
+        return m_pos++, m_token = SyntaxKind::ColonToken;
+      case CharCode::Semicolon:
+        return m_pos++, m_token = SyntaxKind::SemicolonToken;
+
+
       // Default
       default:
         if (isIdentifierStart(m_ch)) {
@@ -365,8 +371,8 @@ SyntaxKind Scanner::scan() {
           m_pos++;
           continue;
         }
+        cout << (*m_source)[m_pos];
         m_pos++;
-        m_token = SyntaxKind::Unknown;
     }
   }
 
