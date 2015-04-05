@@ -21,6 +21,7 @@ namespace VariableDeclarationTest {
     struct SourceFile* sourceFile = parser.parseSourceFile("file.s", &source);
     EXPECT_EQ(sourceFile->statements[0]->kind, SyntaxKind::VariableStatement);
     EXPECT_EQ(static_cast<struct VariableDeclaration*>(sourceFile->statements[0])->name->text, "variable");
+    EXPECT_EQ(sourceFile->statements[0]->end, 18);
     delete sourceFile;
   }
 }

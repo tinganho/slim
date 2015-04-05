@@ -407,7 +407,7 @@ struct VariableDeclaration* Parser::parseVariableStatement(int start, vector<enu
   setModifiers(node, modifiers);
   parseVariableDeclaration(node);
   parseSemicolon();
-  return finishNode<struct VariableDeclaration*>(node);
+  return finishNode(node);
 }
 
 

@@ -14,10 +14,6 @@
 using namespace std;
 
 
-// Flag for preceding linebreak.
-bool precedingLineBreak = false;
-
-
 map<string, SyntaxKind> textToToken {
   { "let", SyntaxKind::LetKeyword },
   { "any", SyntaxKind::AnyKeyword },
@@ -99,6 +95,13 @@ Scanner::Scanner(string source) {
 Scanner::~Scanner() {}
 
 
+void Scanner::error(Diagnostic diagnostic) {
+  if (m_error != NULL) {
+    m_error(diagnostic);
+  }
+}
+
+
 SyntaxKind Scanner::getIdentifierToken() {
   int len = m_tokenValue.length();
   if (len >= 2 && len <= 11) {
@@ -114,15 +117,8 @@ SyntaxKind Scanner::getIdentifierToken() {
 }
 
 
-void Scanner::error(Diagnostic diagnostic) {
-  if (m_error != NULL) {
-    m_error(diagnostic);
-  }
-}
-
-
-void Scanner::setErrorCallback(ErrorCallback error) {
-  m_error = error;
+unsigned int Scanner::getStartPos() {
+  return m_startPos;
 }
 
 
@@ -131,8 +127,13 @@ string Scanner::getTokenValue() {
 }
 
 
-unsigned int Scanner::getStartPos() {
-  return m_startPos;
+unsigned int Scanner::getTextPos() {
+  return m_pos;
+}
+
+
+unsigned int Scanner::getTokenPos() {
+  return m_tokenPos;
 }
 
 
@@ -141,115 +142,11 @@ bool Scanner::hasPrecedingLineBreak() {
 }
 
 
-string Scanner::scanIdentifierParts () {
-  string result = "";
-  unsigned int start = m_pos;
-  while (m_pos < m_len) {
-    unsigned int m_ch = (int)(*m_source)[m_pos];
-    if (isIdentifierPart(m_ch)) {
-      m_pos++;
-    }
-    else {
-      break;
-    }
-  }
-  result += (*m_source).substr(start, m_pos - start);
-  return result;
-}
-
-
-string Scanner::scanEscapeSequence() {
-  m_pos++;
-  if (m_pos >= m_len) {
-    error(Diagnostic::UnexpectEndOfInput);
-    return "";
-  }
-  char ch = (*m_source).at(m_pos++);
-  switch (ch) {
-    case CharCode::_0:
-      return "\0";
-    case CharCode::b:
-      return "\b";
-    case CharCode::t:
-      return "\t";
-    case CharCode::n:
-      return "\n";
-    case CharCode::v:
-      return "\v";
-    case CharCode::f:
-      return "\f";
-    case CharCode::r:
-      return "\r";
-    case CharCode::SingleQuote:
-      return "\'";
-    case CharCode::DoubleQuote:
-      return "\"";
-//    case CharCode::u:
-//      // '\u{DDDDDDDD}'
-//      if (m_pos < m_len && (*m_source).at(m_pos) == CharCode::OpenBrace) {
-//        hasExtendedUnicodeEscape = true;
-//        pos++;
-//        return scanExtendedUnicodeEscape();
-//      }
-//
-//      // '\uDDDD'
-//      return scanHexadecimalEscape(/*numDigits*/ 4)
-//
-//    case CharCode::x:
-//      // '\xDD'
-//      return scanHexadecimalEscape(/*numDigits*/ 2)
-//
-//      // when encountering a LineContinuation (i.e. a backslash and a line terminator sequence),
-//      // the line terminator is interpreted to be "the empty code unit sequence".
-//    case CharacterCodes.carriageReturn:
-//      if (m_pos < m_len && (*m_source).at(m_pos) == CharCode::LineFeed) {
-//        m_pos++;
-//      }
-      // fall through
-    case CharCode::LineFeed:
-      return "";
-    default:
-      return string(1, ch);
-  }
-}
-
-
-string Scanner::scanString() {
-  unsigned int start = m_pos;
-  int quote = (int)(*m_source).at(m_pos++);
-  string result = "";
-  while (true) {
-    if (m_pos >= m_len) {
-      result += (*m_source).substr(start, m_pos - start + 1);
-      m_tokenIsUnterminated = true;
-      error(Diagnostic::UnterminatedStringLiteral);
-      break;
-    }
-    unsigned int ch = (*m_source).at(m_pos);
-    if (ch == quote) {
-      result += (*m_source).substr(start, m_pos - start + 1);
-      m_pos++;
-      break;
-    }
-    if (ch == CharCode::Backslash) {
-      result += (*m_source).substr(start, m_pos - start + 1);
-      result += scanEscapeSequence();
-      start = m_pos;
-      continue;
-    }
-    if (isLineBreak((char)ch)) {
-      result += (*m_source).substr(start, m_pos - start + 1);
-      m_tokenIsUnterminated = true;
-      error(Diagnostic::UnterminatedStringLiteral);
-      break;
-    }
-    m_pos++;
-  }
-  return result;
-}
-
-
 SyntaxKind Scanner::scan() {
+  m_startPos = m_pos;
+//  m_hasExtendedUnicodeEscape = false;
+  m_precedingLineBreak = false;
+  m_tokenIsUnterminated = false;
   if (m_pos >= m_len) {
     return m_token = SyntaxKind::EndOfFileToken;
   }
@@ -270,7 +167,7 @@ SyntaxKind Scanner::scan() {
           continue;
         }
         else {
-          precedingLineBreak = true;
+          m_precedingLineBreak = true;
           if (m_ch == CharCode::CarriageReturn
               && m_pos + 1 < m_len
               && (int)(*m_source)[m_pos + 1] == CharCode::LineFeed) {
@@ -368,7 +265,7 @@ SyntaxKind Scanner::scan() {
           continue;
         }
         else if (isLineBreak(m_ch)) {
-          precedingLineBreak = true;
+          m_precedingLineBreak = true;
           m_pos++;
           continue;
         }
@@ -378,4 +275,117 @@ SyntaxKind Scanner::scan() {
   }
 
   return m_token;
-};
+}
+
+
+string Scanner::scanEscapeSequence() {
+  m_pos++;
+  if (m_pos >= m_len) {
+    error(Diagnostic::UnexpectEndOfInput);
+    return "";
+  }
+  char ch = (*m_source).at(m_pos++);
+  switch (ch) {
+    case CharCode::_0:
+      return "\0";
+    case CharCode::b:
+      return "\b";
+    case CharCode::t:
+      return "\t";
+    case CharCode::n:
+      return "\n";
+    case CharCode::v:
+      return "\v";
+    case CharCode::f:
+      return "\f";
+    case CharCode::r:
+      return "\r";
+    case CharCode::SingleQuote:
+      return "\'";
+    case CharCode::DoubleQuote:
+      return "\"";
+      //    case CharCode::u:
+      //      // '\u{DDDDDDDD}'
+      //      if (m_pos < m_len && (*m_source).at(m_pos) == CharCode::OpenBrace) {
+      //        hasExtendedUnicodeEscape = true;
+      //        pos++;
+      //        return scanExtendedUnicodeEscape();
+      //      }
+      //
+      //      // '\uDDDD'
+      //      return scanHexadecimalEscape(/*numDigits*/ 4)
+      //
+      //    case CharCode::x:
+      //      // '\xDD'
+      //      return scanHexadecimalEscape(/*numDigits*/ 2)
+      //
+      //      // when encountering a LineContinuation (i.e. a backslash and a line terminator sequence),
+      //      // the line terminator is interpreted to be "the empty code unit sequence".
+      //    case CharacterCodes.carriageReturn:
+      //      if (m_pos < m_len && (*m_source).at(m_pos) == CharCode::LineFeed) {
+      //        m_pos++;
+      //      }
+      // fall through
+    case CharCode::LineFeed:
+      return "";
+    default:
+      return string(1, ch);
+  }
+}
+
+
+string Scanner::scanIdentifierParts() {
+  string result = "";
+  unsigned int start = m_pos;
+  while (m_pos < m_len) {
+    unsigned int m_ch = (int)(*m_source)[m_pos];
+    if (isIdentifierPart(m_ch)) {
+      m_pos++;
+    }
+    else {
+      break;
+    }
+  }
+  result += (*m_source).substr(start, m_pos - start);
+  return result;
+}
+
+
+string Scanner::scanString() {
+  unsigned int start = m_pos;
+  int quote = (int)(*m_source).at(m_pos++);
+  string result = "";
+  while (true) {
+    if (m_pos >= m_len) {
+      result += (*m_source).substr(start, m_pos - start + 1);
+      m_tokenIsUnterminated = true;
+      error(Diagnostic::UnterminatedStringLiteral);
+      break;
+    }
+    unsigned int ch = (*m_source).at(m_pos);
+    if (ch == quote) {
+      result += (*m_source).substr(start, m_pos - start + 1);
+      m_pos++;
+      break;
+    }
+    if (ch == CharCode::Backslash) {
+      result += (*m_source).substr(start, m_pos - start + 1);
+      result += scanEscapeSequence();
+      start = m_pos;
+      continue;
+    }
+    if (isLineBreak((char)ch)) {
+      result += (*m_source).substr(start, m_pos - start + 1);
+      m_tokenIsUnterminated = true;
+      error(Diagnostic::UnterminatedStringLiteral);
+      break;
+    }
+    m_pos++;
+  }
+  return result;
+}
+
+
+void Scanner::setErrorCallback(ErrorCallback error) {
+  m_error = error;
+}

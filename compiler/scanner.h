@@ -12,6 +12,33 @@ using namespace std;
 
 // Create scanner
 class Scanner {
+public:
+
+  // Skip trivial
+  bool skipTrivia = true;
+
+  Scanner(string* source);
+  Scanner(string source);
+  ~Scanner();
+
+
+  string getTokenValue();
+  unsigned int getStartPos();
+  unsigned int getTextPos();
+  unsigned int getTokenPos();
+  bool hasPrecedingLineBreak();
+  template <typename T>
+  T lookAhead(std::function<T()> callback) {
+    return speculationHelper(callback, /*isLookAhead:*/ true);
+  }
+  SyntaxKind scan();
+  void setErrorCallback(ErrorCallback error);
+  template <typename T>
+  T tryScan(std::function<T()> callback) {
+    return speculationHelper(callback, /*isLookAhead:*/ false);
+  }
+
+
 private:
 
   // Current character code
@@ -50,30 +77,13 @@ private:
   SyntaxKind getIdentifierToken();
   string scanIdentifierParts();
 
-
-public:
-
-  // Skip trivial
-  bool skipTrivia = true;
-
-  Scanner(string* source);
-  Scanner(string source);
-  ~Scanner();
-
   // Get next token from scanner
   void error(Diagnostic diagnostic);
-  string getTokenValue();
-  unsigned int getStartPos();
-  bool hasPrecedingLineBreak();
-  template <typename T>
-  T lookAhead(std::function<T()> callback) {
-    return speculationHelper(callback, /*isLookAhead:*/ true);
-  }
-  SyntaxKind scan();
+
   string scanString();
   string scanEscapeSequence();
   void scanTemplateAndSetTokenValue();
-  void setErrorCallback(ErrorCallback error);
+
   template <typename T>
   T speculationHelper(std::function<T()> callback, bool isLookAhead) {
     int savePos = m_pos;
@@ -95,10 +105,6 @@ public:
       m_precedingLineBreak = savePrecedingLineBreak;
     }
     return result;
-  }
-  template <typename T>
-  T tryScan(std::function<T()> callback) {
-    return speculationHelper(callback, /*isLookAhead:*/ false);
   }
 };
 

@@ -21,6 +21,14 @@ using namespace std;
 
 
 class Parser {
+public:
+  Parser();
+  ~Parser();
+
+  // Check if token is a start of a declaration.
+  struct SourceFile* parseSourceFile(string fileName, string* source);
+
+
 private:
   SyntaxKind m_token;
   ParsingContext m_parsingContext;
@@ -28,11 +36,7 @@ private:
   vector<string> m_identifiers;
   unsigned int m_identifierCount = 0;
 
-public:
-  Parser();
-  ~Parser();
 
-  // Check if token is a start of a declaration.
   bool canParseSemicolon();
   struct Identifier* createIdentifier(bool isIdentifier, Diagnostic diagnostic);
   template <typename T>
@@ -40,6 +44,9 @@ public:
   Node currentNode();
   template <typename T>
   T finishNode(T node);
+  unsigned short int getBinaryOperatorPrecedence();
+  int getNodePos();
+  string getTokenValue();
   bool isBinaryOperator();
   bool isDeclarationStart();
   bool isIdentifierOrKeyword();
@@ -50,9 +57,6 @@ public:
   bool isSourceElement(bool inErrorRecovery);
   bool isStartOfExpression();
   bool isStartOfStatement(bool inErrorRecovery);
-  unsigned short int getBinaryOperatorPrecedence();
-  int getNodePos();
-  string getTokenValue();
   template<typename T>
   T lookAhead(std::function<T()> callback);
   SyntaxKind nextToken();
@@ -65,7 +69,6 @@ public:
   vector<enum Modifier> parseModifiers();
   bool parseSemicolon();
   Node* parseSourceElement();
-  struct SourceFile* parseSourceFile(string fileName, string* source);
   struct TypeAnnotation* parseTypeAnnotation();
   struct VariableDeclaration* parseVariableStatement(int start, vector<enum Modifier> modifiers);
   void parseVariableDeclaration(struct VariableDeclaration* node);
