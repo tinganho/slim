@@ -477,7 +477,6 @@ enum ParsingContext {
 };
 
 
-// Error callback definitition
 typedef void (*ErrorCallback)(Diagnostic);
 
 
@@ -507,6 +506,10 @@ struct VariableDeclaration: Node {
   struct Identifier* name;
   struct TypeAnnotation* type;
   bool mutable_;
+  ~VariableDeclaration() {
+    delete name;
+    delete type;
+  }
 };
 
 
@@ -515,10 +518,10 @@ struct SourceFile {
   vector<Node*> statements;
   string fileName;
   ~SourceFile() {
-//    for (int i = 0; i < statements.size(); ++i) {
-//      delete statements[i];
-//    }
-//    statements.clear();
+    for (int i = 0; i < statements.size(); ++i) {
+      delete statements[i];
+    }
+    statements.clear();
   }
 };
 
