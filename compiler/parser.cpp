@@ -444,10 +444,7 @@ void Parser::parseVariableDeclaration(struct VariableDeclaration* node) {
 
   nextToken();
 
-//  nextToken();
   node->name = parseIdentifier();
-//  nextToken();
-//  nextToken();
   node->type = parseTypeAnnotation();
 
 //  if (!isInOrOfKeyword(token)) {
@@ -463,8 +460,6 @@ struct TypeAnnotation* Parser::parseTypeAnnotation() {
       return typeAnnotation;
     }
   }
-
-
   throw invalid_argument("Expected a colon token and an identifier");
 }
 
@@ -475,6 +470,7 @@ string Parser::getTokenValue() {
 
 
 bool Parser::canParseSemicolon() {
+
   // If there's a real semicolon, then we can always parse it out.
   if (m_token == SyntaxKind::SemicolonToken) {
     return true;

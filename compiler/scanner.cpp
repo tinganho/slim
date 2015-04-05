@@ -2,13 +2,13 @@
 
 #include <string>
 #include <map>
+#include <functional>
 #include <iostream>
 #include "scanner.h"
 #include "types.h"
 #include "utils.h"
 #include "diagnostics.h"
 #include "parser.h"
-#include <functional>
 
 
 using namespace std;
