@@ -102,9 +102,10 @@ Scanner::~Scanner() {}
 SyntaxKind Scanner::getIdentifierToken() {
   int len = m_tokenValue.length();
   if (len >= 2 && len <= 11) {
+    map<string, SyntaxKind>::const_iterator it = textToToken.find(m_tokenValue);
     int ch = m_tokenValue.at(0);
     if (ch >= CharCode::a && ch <= CharCode::z
-    && textToToken.find(m_tokenValue) != textToToken.end()) {
+    && it != textToToken.end()) {
       m_token = textToToken.at(m_tokenValue);
       return m_token;
     }

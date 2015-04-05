@@ -36,7 +36,7 @@ public:
   bool canParseSemicolon();
   struct Identifier* createIdentifier(bool isIdentifier, Diagnostic diagnostic);
   template <typename T>
-  T createNode(SyntaxKind kind, int start);
+  T* createNode(SyntaxKind kind, int start);
   Node currentNode();
   template <typename T>
   T finishNode(T node);

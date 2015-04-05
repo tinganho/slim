@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8E0B79321ACFE10C0030478B /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E0B79311ACFE10C0030478B /* test.cpp */; };
+		8E0B79421AD0CAC00030478B /* MyVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E0B79401AD0CAC00030478B /* MyVector.cpp */; };
+		8E0B79451AD0CB030030478B /* TestVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E0B79431AD0CB030030478B /* TestVector.cpp */; };
 		8E2F1A591AC9946200DCCC4F /* scanner.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E2F1A571AC9946200DCCC4F /* scanner.test.cpp */; };
 		8EC06E161ACA8706003CA78E /* parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC06E141ACA8706003CA78E /* parser.cpp */; };
 		8EC06E191ACA9857003CA78E /* parser.test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EC06E171ACA9857003CA78E /* parser.test.cpp */; };
@@ -101,6 +103,9 @@
 
 /* Begin PBXFileReference section */
 		8E0B79311ACFE10C0030478B /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
+		8E0B79401AD0CAC00030478B /* MyVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyVector.cpp; sourceTree = "<group>"; };
+		8E0B79411AD0CAC00030478B /* MyVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyVector.h; sourceTree = "<group>"; };
+		8E0B79431AD0CB030030478B /* TestVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestVector.cpp; sourceTree = "<group>"; };
 		8E1434221AC26D7C002523CA /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		8E2F1A571AC9946200DCCC4F /* scanner.test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scanner.test.cpp; path = compiler/scanner.test.cpp; sourceTree = SOURCE_ROOT; };
 		8E5521361ACAD53800829FA8 /* Slim-doc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Slim-doc"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -432,6 +437,9 @@
 		8E82AB951AC18A34009080F0 = {
 			isa = PBXGroup;
 			children = (
+				8E0B79431AD0CB030030478B /* TestVector.cpp */,
+				8E0B79401AD0CAC00030478B /* MyVector.cpp */,
+				8E0B79411AD0CAC00030478B /* MyVector.h */,
 				8E0B79311ACFE10C0030478B /* test.cpp */,
 				8E82148C1AC30475000901D0 /* test */,
 				8E82ABAC1AC191B0009080F0 /* compiler */,
@@ -1388,6 +1396,8 @@
 				8E0B79321ACFE10C0030478B /* test.cpp in Sources */,
 				8EC06E191ACA9857003CA78E /* parser.test.cpp in Sources */,
 				8E2F1A591AC9946200DCCC4F /* scanner.test.cpp in Sources */,
+				8E0B79451AD0CB030030478B /* TestVector.cpp in Sources */,
+				8E0B79421AD0CAC00030478B /* MyVector.cpp in Sources */,
 				8EEEEAC71AC6B766002B8A02 /* scanner.h in Sources */,
 				8EEEEAC81AC6B766002B8A02 /* types.h in Sources */,
 				8EEEEAC91AC6B766002B8A02 /* utils.cpp in Sources */,

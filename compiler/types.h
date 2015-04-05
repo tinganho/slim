@@ -482,60 +482,31 @@ typedef void (*ErrorCallback)(Diagnostic);
 
 
 struct TextRange {
-public:
   int start;
   int end;
 };
 
 
-struct Node: public TextRange {
-public:
-  Node(int start, int end, SyntaxKind kind, vector<enum Modifier> modifiers) {
-    this->start = start;
-    this->end = end;
-    this->kind = kind;
-    this->modifiers = modifiers;
-  }
-
-  Node(int start, int end, SyntaxKind kind) {
-    this->start = start;
-    this->end = end;
-    this->kind = kind;
-  }
-
-  virtual ~Node() {}
-
+struct Node: TextRange {
   SyntaxKind kind;
   vector<enum Modifier> modifiers;
 };
 
 
-struct Identifier: public Node {
-public:
-  Identifier(int start, int end, SyntaxKind kind, vector<enum Modifier> modifiers, string text): Node(start, end, kind, modifiers) {
-    this->text = text;
-  }
+struct Identifier: Node {
   string text;
 };
 
 
-struct VariableDeclaration: public Node {
-public:
-  VariableDeclaration(int start, int end, SyntaxKind kind, vector<enum Modifier> modifiers, bool mutable_): Node(start, end, kind, modifiers) {
-    this->mutable_ = mutable_;
-  }
-  struct Identifier* name;
-  struct TypeAnnotation* type;
-  bool mutable_;
+struct TypeAnnotation: Node {
+  string name;
 };
 
 
-struct TypeAnnotation: public Node {
-public:
-  TypeAnnotation(int start, int end, SyntaxKind kind, string name): Node(start, end, kind) {
-    this->name = name;
-  }
-  string name;
+struct VariableDeclaration: Node {
+  struct Identifier* name;
+  struct TypeAnnotation* type;
+  bool mutable_;
 };
 
 

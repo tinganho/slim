@@ -22,15 +22,12 @@ Parser::~Parser() {
 
 
 template <typename T>
-T Parser::createNode(SyntaxKind kind, int start) {
-  vector<enum Modifier> modifiers;
-  Node* node = new Node(
-    start,
-    start,
-    kind,
-    modifiers
-  );
-  return static_cast<T>(node);
+T* Parser::createNode(SyntaxKind kind, int start) {
+  T* node = new T;
+  node->start = start;
+  node->end = start;
+  node->kind = kind;
+  return node;
 }
 
 
@@ -361,6 +358,7 @@ Node* Parser::parseSourceElement() {
 Node* Parser::parseDeclaration() {
   int fullStart = getNodePos();
   vector<enum Modifier> modifiers = parseModifiers();
+
   switch (m_token) {
     case SyntaxKind::LetKeyword:
     case SyntaxKind::SetKeyword:
@@ -405,9 +403,8 @@ T Parser::finishNode(T node) {
 
 
 struct VariableDeclaration* Parser::parseVariableStatement(int start, vector<enum Modifier> modifiers) {
-  struct VariableDeclaration* node = createNode<struct VariableDeclaration*>(SyntaxKind::VariableStatement, start);
+  struct VariableDeclaration* node = createNode<struct VariableDeclaration>(SyntaxKind::VariableStatement, start);
   setModifiers(node, modifiers);
-  if(m_token)
   parseVariableDeclaration(node);
   parseSemicolon();
   return finishNode<struct VariableDeclaration*>(node);
@@ -417,10 +414,10 @@ struct VariableDeclaration* Parser::parseVariableStatement(int start, vector<enu
 struct Identifier* Parser::createIdentifier(bool isIdentifier, Diagnostic diagnostic) {
   m_identifierCount++;
   if (isIdentifier) {
-    struct Identifier* identifier = createNode<struct Identifier*>(SyntaxKind::Identifier, getNodePos());
+    struct Identifier* identifier = createNode<struct Identifier>(SyntaxKind::Identifier, getNodePos());
     identifier->text = m_scanner->getTokenValue();
     nextToken();
-    return static_cast<struct Identifier*>(finishNode(static_cast<struct Node*>(identifier)));
+    return static_cast<struct Identifier*>(finishNode(identifier));
   }
   else {
     throw invalid_argument("Expected identifier");
@@ -447,9 +444,11 @@ void Parser::parseVariableDeclaration(struct VariableDeclaration* node) {
 
   nextToken();
 
+//  nextToken();
   node->name = parseIdentifier();
+//  nextToken();
+//  nextToken();
   node->type = parseTypeAnnotation();
-
 
 //  if (!isInOrOfKeyword(token)) {
 //    node.initializer = parseInitializer(/*inParameter*/ false);
@@ -459,12 +458,12 @@ void Parser::parseVariableDeclaration(struct VariableDeclaration* node) {
 struct TypeAnnotation* Parser::parseTypeAnnotation() {
   if(parseExpected(SyntaxKind::ColonToken)) {
     if(parseExpected(SyntaxKind::Identifier)) {
-      struct TypeAnnotation* typeAnnotation = createNode<struct TypeAnnotation*>(SyntaxKind::TypeReference, getNodePos());
+      struct TypeAnnotation* typeAnnotation = createNode<struct TypeAnnotation>(SyntaxKind::TypeReference, getNodePos());
       typeAnnotation->name = getTokenValue();
-      if (m_token)
       return typeAnnotation;
     }
   }
+
 
   throw invalid_argument("Expected a colon token and an identifier");
 }
