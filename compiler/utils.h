@@ -5,3 +5,4 @@
 
 
 bool isModifier(SyntaxKind* token);
+string charCodeToString(int charCode);

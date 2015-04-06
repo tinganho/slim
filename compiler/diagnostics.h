@@ -19,9 +19,13 @@ using namespace std;
 
 
 enum Diagnostic {
+  AnExtendedUnicodeEscapeValueMustBeBetween0x0And0x10FFFFInclusive,
+  ExpectedIdentifier,
+  HexadecimalDigitExpected,
+  UnexpectedEndOfText,
   UnexpectEndOfInput,
   UnterminatedStringLiteral,
-  ExpectedIdentifier
+  UnterminatedUnicodeEscapeSequence
 };
 
 

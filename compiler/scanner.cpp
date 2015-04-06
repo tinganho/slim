@@ -1,9 +1,11 @@
 
 
 #include <string>
+#include <sstream>
 #include <map>
 #include <functional>
 #include <iostream>
+#include <math.h>
 #include "scanner.h"
 #include "types.h"
 #include "utils.h"
@@ -144,7 +146,7 @@ bool Scanner::hasPrecedingLineBreak() {
 
 SyntaxKind Scanner::scan() {
   m_startPos = m_pos;
-//  m_hasExtendedUnicodeEscape = false;
+  m_hasExtendedUnicodeEscape = false;
   m_precedingLineBreak = false;
   m_tokenIsUnterminated = false;
   if (m_pos >= m_len) {
@@ -304,16 +306,16 @@ string Scanner::scanEscapeSequence() {
       return "\'";
     case CharCode::DoubleQuote:
       return "\"";
-      //    case CharCode::u:
-      //      // '\u{DDDDDDDD}'
-      //      if (m_pos < m_len && (*m_source).at(m_pos) == CharCode::OpenBrace) {
-      //        hasExtendedUnicodeEscape = true;
-      //        pos++;
-      //        return scanExtendedUnicodeEscape();
-      //      }
-      //
-      //      // '\uDDDD'
-      //      return scanHexadecimalEscape(/*numDigits*/ 4)
+    case CharCode::u:
+      // '\u{DDDDDDDD}'
+      if (m_pos < m_len && (*m_source).at(m_pos) == CharCode::OpenBrace) {
+        m_hasExtendedUnicodeEscape = true;
+        m_pos++;
+        return scanExtendedUnicodeEscape();
+      }
+
+      // '\uDDDD'
+      return scanHexadecimalEscape(/*numDigits*/ 4);
       //
       //    case CharCode::x:
       //      // '\xDD'
@@ -334,6 +336,86 @@ string Scanner::scanEscapeSequence() {
 }
 
 
+int Scanner::scanExactNumberOfHexDigits(unsigned int numDigits) {
+  return scanHexDigits(/*minCount*/ numDigits, /*scanAsManyAsPossible*/ false);
+}
+
+
+string Scanner::scanExtendedUnicodeEscape() {
+  int escapedValue = scanMinimumNumberOfHexDigits(1);
+  bool isInvalidExtendedEscape = false;
+
+  // Validate the value of the digit
+  if (escapedValue < 0) {
+    error(Diagnostic::HexadecimalDigitExpected);
+    isInvalidExtendedEscape = true;
+  }
+  else if (escapedValue > 0x10FFFF) {
+    error(Diagnostic::AnExtendedUnicodeEscapeValueMustBeBetween0x0And0x10FFFFInclusive);
+    isInvalidExtendedEscape = true;
+  }
+
+  if (m_pos >= m_len) {
+    error(Diagnostic::UnexpectedEndOfText);
+    isInvalidExtendedEscape = true;
+  }
+  else if ((*m_source).at(m_pos) == CharCode::CloseBrace) {
+    // Only swallow the following character up if it's a '}'.
+    m_pos++;
+  }
+  else {
+    error(Diagnostic::UnterminatedUnicodeEscapeSequence);
+    isInvalidExtendedEscape = true;
+  }
+
+  if (isInvalidExtendedEscape) {
+    return "";
+  }
+
+  return utf16EncodeAsString(escapedValue);
+}
+
+
+int Scanner::scanHexDigits(unsigned int minCount, bool scanAsManyAsPossible) {
+  unsigned int digits = 0;
+  int value = 0;
+  while (digits < minCount || scanAsManyAsPossible) {
+    int ch = (*m_source).at(m_pos);
+    if (ch >= CharCode::_0 && ch <= CharCode::_9) {
+      value = value * 16 + ch - CharCode::_0;
+    }
+    else if (ch >= CharCode::A && ch <= CharCode::F) {
+      value = value * 16 + ch - CharCode::A + 10;
+    }
+    else if (ch >= CharCode::a && ch <= CharCode::f) {
+      value = value * 16 + ch - CharCode::a + 10;
+    }
+    else {
+      break;
+    }
+    m_pos++;
+    digits++;
+  }
+  if (digits < minCount) {
+    value = -1;
+  }
+  return value;
+}
+
+
+string Scanner::scanHexadecimalEscape(int numDigits) {
+  int escapedValue = scanExactNumberOfHexDigits(numDigits);
+
+  if (escapedValue >= 0) {
+    return charCodeToString(escapedValue);
+  }
+  else {
+    error(Diagnostic::HexadecimalDigitExpected);
+    return "";
+  }
+}
+
+
 string Scanner::scanIdentifierParts() {
   string result = "";
   unsigned int start = m_pos;
@@ -348,6 +430,14 @@ string Scanner::scanIdentifierParts() {
   }
   result += (*m_source).substr(start, m_pos - start);
   return result;
+}
+
+/**
+ * Scans as many hexadecimal digits as are available in the text,
+ * returning -1 if the given number of digits was unavailable.
+ */
+int Scanner::scanMinimumNumberOfHexDigits(unsigned int count) {
+  return scanHexDigits(/*minCount*/ count, /*scanAsManyAsPossible*/ true);
 }
 
 
@@ -388,4 +478,25 @@ string Scanner::scanString() {
 
 void Scanner::setErrorCallback(ErrorCallback error) {
   m_error = error;
+}
+
+
+// Derived from the 10.1.1 UTF16Encoding of the ES6 Spec.
+string Scanner::utf16EncodeAsString(unsigned int codePoint) {
+  if(!(codePoint <= 0x10FFFF)) {
+    error(Diagnostic::HexadecimalDigitExpected);
+  }
+
+  if (codePoint <= 65535) {
+    stringstream ss;
+    string s;
+    ss << (char)codePoint;
+    ss >> s;
+    return s;
+  }
+
+  int codeUnit1 = floor((codePoint - 65536) / 1024) + 0xD800;
+  int codeUnit2 = ((codePoint - 65536) % 1024) + 0xDC00;
+
+  return charCodeToString(codeUnit1) + charCodeToString(codeUnit2);
 }

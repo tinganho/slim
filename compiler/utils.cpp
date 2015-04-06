@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include <string>
+#include <sstream>
 
 
 bool isModifier(SyntaxKind* token) {
@@ -18,4 +19,13 @@ bool isModifier(SyntaxKind* token) {
     default:
       return false;
   }
+}
+
+
+string charCodeToString(int charCode) {
+  stringstream ss;
+  string s;
+  ss << (char)charCode;
+  ss >> s;
+  return s;
 }

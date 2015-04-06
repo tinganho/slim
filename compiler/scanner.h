@@ -32,11 +32,17 @@ public:
     return speculationHelper(callback, /*isLookAhead:*/ true);
   }
   SyntaxKind scan();
+  int scanExactNumberOfHexDigits(unsigned int numDigits);
+  string scanExtendedUnicodeEscape();
+  int scanHexDigits(unsigned int minCount, bool scanAsManyAsPossible);
+  string scanHexadecimalEscape(int digits);
+  int scanMinimumNumberOfHexDigits(unsigned int count);
   void setErrorCallback(ErrorCallback error);
   template <typename T>
   T tryScan(std::function<T()> callback) {
     return speculationHelper(callback, /*isLookAhead:*/ false);
   }
+  string utf16EncodeAsString(unsigned int codePoint);
 
 
 private:
@@ -59,6 +65,9 @@ private:
   // Preceding line break flag.
   bool m_precedingLineBreak;
 
+  // has extended unicode escape flag.
+  bool m_hasExtendedUnicodeEscape;
+
   // Error callback.
   ErrorCallback m_error = NULL;
 
@@ -68,10 +77,10 @@ private:
   // Current lengt of source file.
   int m_len;
 
-  // Current token
+  // Current token.
   SyntaxKind m_token;
 
-  // Source text
+  // Source text.
   string* m_source;
 
   SyntaxKind getIdentifierToken();
