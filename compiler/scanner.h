@@ -69,7 +69,7 @@ private:
   bool m_hasExtendedUnicodeEscape;
 
   // Error callback.
-  ErrorCallback m_error = NULL;
+  ErrorCallback m_error = nullptr;
 
   // Token value.
   string m_tokenValue;

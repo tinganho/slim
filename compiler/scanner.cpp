@@ -307,6 +307,7 @@ string Scanner::scanEscapeSequence() {
     case CharCode::DoubleQuote:
       return "\"";
     case CharCode::u:
+
       // '\u{DDDDDDDD}'
       if (m_pos < m_len && (*m_source).at(m_pos) == CharCode::OpenBrace) {
         m_hasExtendedUnicodeEscape = true;
@@ -347,16 +348,16 @@ string Scanner::scanExtendedUnicodeEscape() {
 
   // Validate the value of the digit
   if (escapedValue < 0) {
-    error(Diagnostic::HexadecimalDigitExpected);
+    m_error(Diagnostic::HexadecimalDigitExpected);
     isInvalidExtendedEscape = true;
   }
   else if (escapedValue > 0x10FFFF) {
-    error(Diagnostic::AnExtendedUnicodeEscapeValueMustBeBetween0x0And0x10FFFFInclusive);
+    m_error(Diagnostic::AnExtendedUnicodeEscapeValueMustBeBetween0x0And0x10FFFFInclusive);
     isInvalidExtendedEscape = true;
   }
 
   if (m_pos >= m_len) {
-    error(Diagnostic::UnexpectedEndOfText);
+    m_error(Diagnostic::UnexpectedEndOfText);
     isInvalidExtendedEscape = true;
   }
   else if ((*m_source).at(m_pos) == CharCode::CloseBrace) {
@@ -364,7 +365,7 @@ string Scanner::scanExtendedUnicodeEscape() {
     m_pos++;
   }
   else {
-    error(Diagnostic::UnterminatedUnicodeEscapeSequence);
+    m_error(Diagnostic::UnterminatedUnicodeEscapeSequence);
     isInvalidExtendedEscape = true;
   }
 
@@ -483,16 +484,12 @@ void Scanner::setErrorCallback(ErrorCallback error) {
 
 // Derived from the 10.1.1 UTF16Encoding of the ES6 Spec.
 string Scanner::utf16EncodeAsString(unsigned int codePoint) {
-  if(!(codePoint <= 0x10FFFF)) {
-    error(Diagnostic::HexadecimalDigitExpected);
+  if(codePoint > 0x10FFFF) {
+    m_error(Diagnostic::HexadecimalDigitExpected);
   }
 
   if (codePoint <= 65535) {
-    stringstream ss;
-    string s;
-    ss << (char)codePoint;
-    ss >> s;
-    return s;
+    return charCodeToString(codePoint);
   }
 
   int codeUnit1 = floor((codePoint - 65536) / 1024) + 0xD800;
